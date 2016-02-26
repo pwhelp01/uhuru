@@ -18,10 +18,26 @@ public class Main {
     
     public static void main(String[] args) {
         
+        String workingdirectory = System.getProperty("user.dir") + "\\innerproject";
+        String[] arguments = {"clean", "compile"};
+        
+        
+        InnerProject prj = new InnerProject(arguments, workingdirectory);
+        
+        try {
+            prj.build();
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        
+        
+        /* 
         buildInnerProject();
         loadClasses();
         System.out.println("Got here");
-       
+       */
     }
     
     
