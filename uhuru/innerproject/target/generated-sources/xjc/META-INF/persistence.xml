@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd
+http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:orm="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <persistence-unit name="generated">
+        <class>generated.APStudentRecord</class>
+        <class>generated.CLASSCodeType</class>
+        <class>generated.COURSEAIMCodeType</class>
+        <class>generated.Course</class>
+        <class>generated.CourseSubject</class>
+        <class>generated.DISABLECodeType</class>
+        <class>generated.DISALLCodeType</class>
+        <class>generated.DOMICILECodeType</class>
+        <class>generated.ETHNICCodeType</class>
+        <class>generated.EXCHINDCodeType</class>
+        <class>generated.EntryProfile</class>
+        <class>generated.GENDERIDCodeType</class>
+        <class>generated.HEAPESPOPCodeType</class>
+        <class>generated.Instance</class>
+        <class>generated.InstanceLOCATIONItem</class>
+        <class>generated.InstancePeriod</class>
+        <class>generated.LOCSDYCodeType</class>
+        <class>generated.MODECodeType</class>
+        <class>generated.MSTUFEECodeType</class>
+        <class>generated.NATIONCodeType</class>
+        <class>generated.NOTACTCodeType</class>
+        <class>generated.PREVINSTCodeType</class>
+        <class>generated.PRIPROVCodeType</class>
+        <class>generated.Provider</class>
+        <class>generated.QUALCodeType</class>
+        <class>generated.QUALENT3CodeType</class>
+        <class>generated.QUALGRADECodeType</class>
+        <class>generated.QUALSBJCodeType</class>
+        <class>generated.QUALSITCodeType</class>
+        <class>generated.QUALTYPECodeType</class>
+        <class>generated.QualificationsAwarded</class>
+        <class>generated.QualificationsOnEntry</class>
+        <class>generated.RECIDCodeType</class>
+        <class>generated.REGBODYCodeType</class>
+        <class>generated.RELBLFCodeType</class>
+        <class>generated.RSNENDCodeType</class>
+        <class>generated.SBJCACodeType</class>
+        <class>generated.SEXIDCodeType</class>
+        <class>generated.SEXORTCodeType</class>
+        <class>generated.SSELIGCodeType</class>
+        <class>generated.SUBPURPOSECodeType</class>
+        <class>generated.Student</class>
+        <class>generated.StudentEquality</class>
+        <class>generated.TTCIDCodeType</class>
+        <class>generated.UNITLGTHCodeType</class>
+    </persistence-unit>
+</persistence>

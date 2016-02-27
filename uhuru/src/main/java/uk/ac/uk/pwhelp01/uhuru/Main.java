@@ -16,11 +16,10 @@ import org.xeustechnologies.jcl.JclObjectFactory;
  */
 public class Main {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) { 
         
-        String workingdirectory = System.getProperty("user.dir") + "\\innerproject";
+        String workingdirectory = System.getProperty("user.dir") + "/innerproject";
         String[] arguments = {"clean", "compile"};
-        
         
         InnerProject prj = new InnerProject(arguments, workingdirectory);
         
@@ -32,27 +31,6 @@ public class Main {
             e.printStackTrace();
         }
         
-        
-        /* 
-        buildInnerProject();
-        loadClasses();
-        System.out.println("Got here");
-       */
-    }
-    
-    
-    private static void buildInnerProject() {
-        
-         // Create new instance of MavenCLI
-        MavenCli cli = new MavenCli();
-        
-        // Build inner project
-        int result = cli.doMain(new String[]{"clean", "compile"}, 
-                "/home/peedeeboy/git/hesa-utility/hyperjaxb3-ejb-template-basic-0.5.6", 
-                System.out, System.out);
-           
-        // Print result
-        System.out.println("result: " + result);
     }
     
     
