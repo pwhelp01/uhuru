@@ -17,19 +17,10 @@ public class CustomClassLoader {
     
     URLClassLoader cl;
     
-    public CustomClassLoader(File dirIn) throws Exception {
-        
-        // Convert File to URL
-        try {
-            URL url = dirIn.toURI().toURL(); 
-            URL[] urls = new URL[]{url};
-            
+    public CustomClassLoader(URL[] urlsIn) throws Exception {
+
             // Create classloader
-            this.cl = new URLClassLoader(urls); 
-        }
-        catch(MalformedURLException e) {
-            throw e;
-        }
+            this.cl = new URLClassLoader(urlsIn); 
         
     }
     
