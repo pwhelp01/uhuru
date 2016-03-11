@@ -27,4 +27,5 @@ Fonts
 Final Frontier Old Style
 ------------------------
 Created by and copyright Allen R. Walden
+
 Freeware - commercial use allowed.
