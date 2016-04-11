@@ -32,10 +32,6 @@ public class CreateSchemaController implements Initializable {
     @FXML TextField dataTxt;
     @FXML TextField codeTxt;
     
-    
-    ObjectProperty<File> schemaFile = new SimpleObjectProperty(new File(""));
-    ObjectProperty<File> dataFile = new SimpleObjectProperty();
-    
     InnerProject innerProject = new InnerProject();
     
     /**
@@ -44,8 +40,8 @@ public class CreateSchemaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Bindings
-        schemaTxt.textProperty().bind(schemaFile.asString());
-        
+        schemaTxt.textProperty().bind(innerProject.schemaFile.asString());
+        dataTxt.textProperty().bind(innerProject.dataFile.asString());
         codeTxt.textProperty().bind(innerProject.codeFile.asString());
         
     }
@@ -54,14 +50,14 @@ public class CreateSchemaController implements Initializable {
     @FXML
     private void schemaBrowseBtnAction(ActionEvent event) {
         
-        schemaFile.set(chooseFile());
+        innerProject.setSchemaFile(chooseFile());
         
     }
     
     @FXML
     private void dataBrowseBtnAction(ActionEvent event) {
         
-        dataFile.set(chooseFile());
+        innerProject.setDataFile(chooseFile());
         
     }
     
@@ -78,4 +74,5 @@ public class CreateSchemaController implements Initializable {
         fileDialog.getExtensionFilters().addAll(new ExtensionFilter("XML Schema Files", "*.xsd"));
         return fileDialog.showOpenDialog(null);
     }
+    
 }

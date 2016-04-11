@@ -18,7 +18,7 @@
                   <Image url="@../images/richmond-logo-grey.png" />
                </image>
             </ImageView>
-            <Label text="Universal Unistats and Hesa Returns Utility">
+            <Label text="Universal Hesa and Unistats Returns Utility">
                <font>
                   <Font name="Final Frontier Old Style" size="28.0" />
                </font>

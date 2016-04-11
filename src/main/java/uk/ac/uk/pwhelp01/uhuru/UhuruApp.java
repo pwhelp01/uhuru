@@ -46,7 +46,7 @@ public class UhuruApp extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
         
-        stage.setTitle("Universal Unistats and HESA Returns Utility");
+        stage.setTitle("Universal HESA and Unistats Returns Utility");
         stage.setScene(scene);
         stage.show();
                       

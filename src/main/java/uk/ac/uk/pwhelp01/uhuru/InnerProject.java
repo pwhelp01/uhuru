@@ -19,7 +19,7 @@ import javafx.beans.property.StringProperty;
  */
 public class InnerProject {
     
-    ObjectProperty<File> schemaFile = new SimpleObjectProperty(new File(""));
+    ObjectProperty<File> schemaFile = new SimpleObjectProperty();
     ObjectProperty<File> dataFile = new SimpleObjectProperty();
     ObjectProperty<File> codeFile = new SimpleObjectProperty();
     
