@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefWidth="600.0" stylesheets="@../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.uk.pwhelp01.uhuru.MenuController">
+   <children>
+      <Button fx:id="installBtn" minWidth="400.0" mnemonicParsing="false" styleClass="mainmenu-button" text="Install / Setup">
+         <VBox.margin>
+            <Insets left="100.0" top="40.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="createSchemaBtn" minWidth="400.0" mnemonicParsing="false" onAction="#createSchemaBtnAction" styleClass="mainmenu-button" text="Create Schema">
+         <VBox.margin>
+            <Insets left="100.0" top="40.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="createXmlBtn" minWidth="400.0" mnemonicParsing="false" styleClass="mainmenu-button" text="Create XML">
+         <VBox.margin>
+            <Insets left="100.0" top="40.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="settingsBtn" minWidth="400.0" mnemonicParsing="false" styleClass="mainmenu-button" text="Settings">
+         <VBox.margin>
+            <Insets left="100.0" top="40.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="exitBtn" minWidth="400.0" mnemonicParsing="false" onAction="#exitBtnAction" styleClass="mainmenu-button" text="Exit">
+         <VBox.margin>
+            <Insets left="100.0" top="40.0" />
+         </VBox.margin>
+      </Button>
+   </children>
+</VBox>

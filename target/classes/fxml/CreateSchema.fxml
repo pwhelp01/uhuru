@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.uk.pwhelp01.uhuru.CreateSchemaController">
+   <children>
+      <TitledPane animated="false" prefHeight="144.0" prefWidth="600.0" text="Schema (.xsd) Files">
+         <content>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="browseSchemaBtn" mnemonicParsing="false" onAction="#schemaBrowseBtnAction" text="Browse" GridPane.columnIndex="2" />
+                  <Button fx:id="browseDataBtn" mnemonicParsing="false" onAction="#dataBrowseBtnAction" text="Browse" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Button fx:id="browseCodeBtn" mnemonicParsing="false" onAction="#codeBrowseBtnAction" text="Browse" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Label text="Schema" GridPane.halignment="RIGHT" />
+                  <Label text="Data Types" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <Label text="Code Values" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                  <TextField fx:id="schemaTxt" editable="false" GridPane.columnIndex="1" />
+                  <TextField fx:id="dataTxt" editable="false" text="${controller.dataFile}" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="codeTxt" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+         </content>
+      </TitledPane>
+      <TitledPane prefHeight="200.0" prefWidth="200.0" text="Database">
+         <content>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Server" GridPane.halignment="RIGHT" />
+                  <Label text="Database" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <Label text="Username" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                  <Label text="Password" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                  <TextField GridPane.columnIndex="1" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+         </content>
+      </TitledPane>
+      <AnchorPane prefHeight="39.0" prefWidth="600.0" />
+   </children>
+</VBox>
