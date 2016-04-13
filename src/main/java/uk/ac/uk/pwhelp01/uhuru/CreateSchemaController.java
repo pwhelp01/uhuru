@@ -28,6 +28,8 @@ public class CreateSchemaController implements Initializable {
     @FXML Button browseSchemaBtn;
     @FXML Button browseDataBtn;
     @FXML Button browseCodeBtn;
+    @FXML Button processBtn;
+    @FXML Button backBtn;
     @FXML TextField schemaTxt;
     @FXML TextField dataTxt;
     @FXML TextField codeTxt;
@@ -66,6 +68,27 @@ public class CreateSchemaController implements Initializable {
         
         innerProject.setCodeFile(chooseFile());
         
+    }
+    
+    @FXML
+    private void processBtnAction(ActionEvent event) {
+        String dir = System.getProperty("user.dir");
+        System.out.println(dir);
+        
+        try {
+            innerProject.build();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void backBtnAction(ActionEvent event) {
+        try {    
+            PageLoader.loadPage(PageLoader.MENU);
+        }
+        catch (Exception e){}
     }
     
     private File chooseFile() {
