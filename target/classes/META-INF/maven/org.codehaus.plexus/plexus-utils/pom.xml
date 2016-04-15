@@ -26,7 +26,7 @@ limitations under the License.
   </parent>
 
   <artifactId>plexus-utils</artifactId>
-  <version>3.0.15</version>
+  <version>3.0.20</version>
 
   <name>Plexus Common Utilities</name>
   <description>A collection of various utility classes to ease working with strings, files, command lines, XML and
@@ -38,13 +38,21 @@ limitations under the License.
     <connection>scm:git:git@github.com:sonatype/plexus-utils.git</connection>
     <developerConnection>scm:git:git@github.com:sonatype/plexus-utils.git</developerConnection>
     <url>http://github.com/sonatype/plexus-utils</url>
-    <tag>plexus-utils-3.0.15</tag>
+    <tag>plexus-utils-3.0.20</tag>
   </scm>
   <issueManagement>
     <system>JIRA</system>
     <url>http://jira.codehaus.org/browse/PLXUTILS</url>
   </issueManagement>
 
+  <dependencies>
+      <dependency>
+        <groupId>org.apache.maven.shared</groupId>
+        <artifactId>maven-plugin-testing-harness</artifactId>
+        <version>1.1</version>
+        <scope>test</scope>
+      </dependency>
+  </dependencies>
   <build>
     <plugins>
       <plugin>
@@ -88,6 +96,19 @@ limitations under the License.
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+     <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.1</version>
       </plugin>
     </plugins>
   </build>

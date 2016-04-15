@@ -8,6 +8,7 @@ package uk.ac.uk.pwhelp01.uhuru;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
@@ -42,10 +43,17 @@ public class CreateSchemaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Bindings
-        schemaTxt.textProperty().bind(innerProject.schemaFile.asString());
-        dataTxt.textProperty().bind(innerProject.dataFile.asString());
-        codeTxt.textProperty().bind(innerProject.codeFile.asString());
+        schemaTxt.textProperty().bind(Bindings.when(innerProject.schemaFile.isNotNull())
+                .then(innerProject.schemaFile.asString())
+                .otherwise(""));
         
+        dataTxt.textProperty().bind(Bindings.when(innerProject.dataFile.isNotNull())
+                .then(innerProject.dataFile.asString())
+                .otherwise(""));
+   
+        codeTxt.textProperty().bind(Bindings.when(innerProject.codeFile.isNotNull())
+                .then(innerProject.codeFile.asString())
+                .otherwise(""));
     }
     
     

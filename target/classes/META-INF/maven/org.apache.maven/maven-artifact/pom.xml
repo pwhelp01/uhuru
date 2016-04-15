@@ -16,7 +16,7 @@
   <parent>
     <groupId>org.apache.maven</groupId>
     <artifactId>maven</artifactId>
-    <version>3.1.1</version>
+    <version>3.3.3</version>
   </parent>
 
   <artifactId>maven-artifact</artifactId>
@@ -26,7 +26,7 @@
   <scm><!-- remove when git scm url format can accept artifact-id at the end, as automatically inherited -->
     <connection>scm:git:https://git-wip-us.apache.org/repos/asf/maven.git</connection>
     <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/maven.git</developerConnection>
-    <tag>maven-3.1.1</tag>
+    <tag>maven-3.3.3</tag>
   </scm>
 
   <dependencies>
@@ -41,6 +41,17 @@
       <plugin>
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-component-metadata</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Main-Class>org.apache.maven.artifact.versioning.ComparableVersion</Main-Class>
+            </manifestEntries>
+          </archive>
+        </configuration>
       </plugin>
     </plugins>
   </build>

@@ -25,7 +25,7 @@ under the License.
   <parent>
     <groupId>org.apache.maven</groupId>
     <artifactId>maven</artifactId>
-    <version>3.1.1</version>
+    <version>3.3.3</version>
   </parent>
 
   <artifactId>maven-plugin-api</artifactId>
@@ -36,7 +36,7 @@ under the License.
   <scm><!-- remove when git scm url format can accept artifact-id at the end, as automatically inherited -->
     <connection>scm:git:https://git-wip-us.apache.org/repos/asf/maven.git</connection>
     <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/maven.git</developerConnection>
-    <tag>maven-3.1.1</tag>
+    <tag>maven-3.3.3</tag>
   </scm>
 
   <dependencies>
@@ -68,29 +68,23 @@ under the License.
         <configuration>
           <models>
             <model>src/main/mdo/lifecycle.mdo</model>
-            <model>src/main/mdo/plugin.mdo</model>
           </models>
           <version>1.0.0</version>
         </configuration>
         <executions>
           <execution>
-            <id>site-docs</id>
+            <id>plugin-site-doc</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>xdoc</goal>
+            </goals>
             <configuration>
-              <models combine.children="append">
-                <model>src/main/mdo/plugin.mdo</model><!-- plugin.mdo is only for documentation, not used for code generation -->
+              <models>
+                <model>src/main/mdo/plugin.mdo</model>
               </models>
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-         <excludes>
-           <exclude>org/apache/maven/plugin/descriptor/model</exclude>
-           <exclude>org/apache/maven/plugin/descriptor/model/**/*</exclude>
-         </excludes>
-        </configuration>
       </plugin>
     </plugins>
   </build>

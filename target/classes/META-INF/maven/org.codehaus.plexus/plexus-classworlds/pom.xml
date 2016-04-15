@@ -25,7 +25,7 @@
   </parent>
 
   <artifactId>plexus-classworlds</artifactId>
-  <version>2.5.1</version>
+  <version>2.5.2</version>
   <packaging>bundle</packaging>
 
   <name>Plexus Classworlds</name>
@@ -36,10 +36,49 @@
     <connection>scm:git:git@github.com:sonatype/plexus-classworlds.git</connection>
     <developerConnection>scm:git:git@github.com:sonatype/plexus-classworlds.git</developerConnection>
     <url>http://github.com/sonatype/plexus-classworlds</url>
-    <tag>plexus-classworlds-2.5.1</tag>
+    <tag>plexus-classworlds-2.5.2</tag>
   </scm>
 
+  <distributionManagement>
+    <site>
+      <id>adm-site</id>
+      <url>scm:git:git@github.com:sonatype/plexus-classworlds.git</url>
+    </site>
+  </distributionManagement>
+
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-scm-publish-plugin</artifactId>
+          <version>1.0</version>
+          <configuration>
+            <scmBranch>gh-pages</scmBranch>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.3</version>
+          <configuration>
+            <scmBranch>gh-pages</scmBranch>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5</version>
+          <configuration>
+            <localCheckout>true</localCheckout>
+            <pushChanges>false</pushChanges>
+            <useReleaseProfile>false</useReleaseProfile>
+            <goals>deploy</goals>
+            <arguments>-Pplexus-release</arguments>
+          </configuration>
+        </plugin>        
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.felix</groupId>
@@ -76,8 +115,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
+          <source>1.6</source>
+          <target>1.6</target>
           <excludes>
             <exclude>org/codehaus/plexus/classworlds/event/*</exclude>
           </excludes>
@@ -139,4 +178,39 @@
 
     </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.7</version>
+        <configuration>
+          <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>summary</report>
+              <report>index</report>
+              <report>dependencies</report>
+              <report>issue-tracking</report>
+              <report>scm</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9.1</version>
+        <configuration>
+          <encoding>utf-8</encoding>
+          <attach>true</attach>
+          <quiet>true</quiet>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
 </project>
