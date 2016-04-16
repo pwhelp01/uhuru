@@ -84,7 +84,10 @@ public class CreateSchemaController implements Initializable {
         System.out.println(dir);
         
         try {
-            innerProject.build();
+            innerProject.copyFiles();
+
+            // innerProject.build();
+            innerProject.invokeMaven();
         }
         catch(Exception e) {
             e.printStackTrace();

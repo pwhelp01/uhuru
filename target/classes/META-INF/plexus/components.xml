@@ -2,61 +2,118 @@
 <component-set>
   <components>
     <component>
-      <role>org.apache.maven.settings.building.SettingsBuilder</role>
+      <role>org.eclipse.aether.impl.ArtifactDescriptorReader</role>
       <role-hint>default</role-hint>
-      <implementation>org.apache.maven.settings.building.DefaultSettingsBuilder</implementation>
+      <implementation>org.apache.maven.repository.internal.DefaultArtifactDescriptorReader</implementation>
       <description />
       <isolated-realm>false</isolated-realm>
       <requirements>
         <requirement>
-          <role>org.apache.maven.settings.io.SettingsReader</role>
+          <role>org.eclipse.aether.spi.log.LoggerFactory</role>
           <role-hint />
-          <field-name>settingsReader</field-name>
+          <field-name>logger</field-name>
         </requirement>
         <requirement>
-          <role>org.apache.maven.settings.io.SettingsWriter</role>
+          <role>org.eclipse.aether.impl.RemoteRepositoryManager</role>
           <role-hint />
-          <field-name>settingsWriter</field-name>
+          <field-name>remoteRepositoryManager</field-name>
         </requirement>
         <requirement>
-          <role>org.apache.maven.settings.validation.SettingsValidator</role>
+          <role>org.eclipse.aether.impl.VersionResolver</role>
           <role-hint />
-          <field-name>settingsValidator</field-name>
+          <field-name>versionResolver</field-name>
+        </requirement>
+        <requirement>
+          <role>org.eclipse.aether.impl.VersionRangeResolver</role>
+          <role-hint />
+          <field-name>versionRangeResolver</field-name>
+        </requirement>
+        <requirement>
+          <role>org.eclipse.aether.impl.ArtifactResolver</role>
+          <role-hint />
+          <field-name>artifactResolver</field-name>
+        </requirement>
+        <requirement>
+          <role>org.eclipse.aether.impl.RepositoryEventDispatcher</role>
+          <role-hint />
+          <field-name>repositoryEventDispatcher</field-name>
+        </requirement>
+        <requirement>
+          <role>org.apache.maven.model.building.ModelBuilder</role>
+          <role-hint />
+          <field-name>modelBuilder</field-name>
         </requirement>
       </requirements>
     </component>
     <component>
-      <role>org.apache.maven.settings.crypto.SettingsDecrypter</role>
+      <role>org.eclipse.aether.impl.VersionRangeResolver</role>
       <role-hint>default</role-hint>
-      <implementation>org.apache.maven.settings.crypto.DefaultSettingsDecrypter</implementation>
+      <implementation>org.apache.maven.repository.internal.DefaultVersionRangeResolver</implementation>
       <description />
       <isolated-realm>false</isolated-realm>
       <requirements>
         <requirement>
-          <role>org.sonatype.plexus.components.sec.dispatcher.SecDispatcher</role>
-          <role-hint>maven</role-hint>
-          <field-name>securityDispatcher</field-name>
+          <role>org.eclipse.aether.spi.log.LoggerFactory</role>
+          <role-hint />
+          <field-name>logger</field-name>
+        </requirement>
+        <requirement>
+          <role>org.eclipse.aether.impl.MetadataResolver</role>
+          <role-hint />
+          <field-name>metadataResolver</field-name>
+        </requirement>
+        <requirement>
+          <role>org.eclipse.aether.impl.SyncContextFactory</role>
+          <role-hint />
+          <field-name>syncContextFactory</field-name>
+        </requirement>
+        <requirement>
+          <role>org.eclipse.aether.impl.RepositoryEventDispatcher</role>
+          <role-hint />
+          <field-name>repositoryEventDispatcher</field-name>
         </requirement>
       </requirements>
     </component>
     <component>
-      <role>org.apache.maven.settings.io.SettingsReader</role>
+      <role>org.eclipse.aether.impl.VersionResolver</role>
       <role-hint>default</role-hint>
-      <implementation>org.apache.maven.settings.io.DefaultSettingsReader</implementation>
+      <implementation>org.apache.maven.repository.internal.DefaultVersionResolver</implementation>
+      <description />
+      <isolated-realm>false</isolated-realm>
+      <requirements>
+        <requirement>
+          <role>org.eclipse.aether.spi.log.LoggerFactory</role>
+          <role-hint />
+          <field-name>logger</field-name>
+        </requirement>
+        <requirement>
+          <role>org.eclipse.aether.impl.MetadataResolver</role>
+          <role-hint />
+          <field-name>metadataResolver</field-name>
+        </requirement>
+        <requirement>
+          <role>org.eclipse.aether.impl.SyncContextFactory</role>
+          <role-hint />
+          <field-name>syncContextFactory</field-name>
+        </requirement>
+        <requirement>
+          <role>org.eclipse.aether.impl.RepositoryEventDispatcher</role>
+          <role-hint />
+          <field-name>repositoryEventDispatcher</field-name>
+        </requirement>
+      </requirements>
+    </component>
+    <component>
+      <role>org.eclipse.aether.impl.MetadataGeneratorFactory</role>
+      <role-hint>snapshot</role-hint>
+      <implementation>org.apache.maven.repository.internal.SnapshotMetadataGeneratorFactory</implementation>
       <description />
       <isolated-realm>false</isolated-realm>
     </component>
     <component>
-      <role>org.apache.maven.settings.io.SettingsWriter</role>
-      <role-hint>default</role-hint>
-      <implementation>org.apache.maven.settings.io.DefaultSettingsWriter</implementation>
-      <description />
-      <isolated-realm>false</isolated-realm>
-    </component>
-    <component>
-      <role>org.apache.maven.settings.validation.SettingsValidator</role>
-      <role-hint>default</role-hint>
-      <implementation>org.apache.maven.settings.validation.DefaultSettingsValidator</implementation>
+      <role>org.eclipse.aether.impl.MetadataGeneratorFactory</role>
+      <role-hint>versions</role-hint>
+      <implementation>org.apache.maven.repository.internal.VersionsMetadataGeneratorFactory</implementation>
       <description />
       <isolated-realm>false</isolated-realm>
     </component>

@@ -18,10 +18,5 @@ public class Program {
     
     public static void main(String[] args) {
      
-        HESA h = new HESA();
-        
-        /* Uncomment the appropriate line below */
-        //h.createDatabase();
-        h.createXML();
     }
 }

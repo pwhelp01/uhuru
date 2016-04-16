@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>18.0</version>
+    <version>16.0.1</version>
   </parent>
   <artifactId>guava</artifactId>
   <name>Guava: Google Core Libraries for Java</name>
@@ -47,9 +47,9 @@
             <Export-Package>!com.google.common.base.internal,com.google.common.*</Export-Package>
             <Import-Package>
               javax.annotation;resolution:=optional,
+              javax.inject;resolution:=optional,
               sun.misc.*;resolution:=optional
             </Import-Package>
-            <Bundle-DocURL>https://guava-libraries.googlecode.com/</Bundle-DocURL>
           </instructions>
         </configuration>
       </plugin>
@@ -79,6 +79,22 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>animal-sniffer-maven-plugin</artifactId>
+        <configuration>
+          <signature>
+            <groupId>org.codehaus.mojo.signature</groupId>
+            <artifactId>java16-sun</artifactId>
+            <version>1.0</version>
+          </signature>
+        </configuration>
+        <executions>
+          <execution>
+            <id>check-java16-sun</id>
+            <phase>test</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
