@@ -9,7 +9,9 @@ import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
@@ -24,6 +26,14 @@ import org.apache.maven.shared.invoker.InvocationRequest;
 import org.apache.maven.shared.invoker.InvocationResult;
 import org.apache.maven.shared.invoker.Invoker;
 import org.apache.maven.shared.invoker.MavenInvocationException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 /**
  *
@@ -34,6 +44,7 @@ public class InnerProject {
     ObjectProperty<File> schemaFile = new SimpleObjectProperty();
     ObjectProperty<File> dataFile = new SimpleObjectProperty();
     ObjectProperty<File> codeFile = new SimpleObjectProperty();
+    ObjectProperty<File> bindingsFile = new SimpleObjectProperty();
     
     StringProperty buildMessage = new SimpleStringProperty();
     DoubleProperty buildStatus = new SimpleDoubleProperty();
@@ -45,6 +56,7 @@ public class InnerProject {
     PrintStream stderr = System.out;
     
     String resourcesDirectory = workingDirectory + "/src/main/resources/";
+    String pomFile = (workingDirectory + "/pom.xml");
     
     
     // Constructors
@@ -76,6 +88,14 @@ public class InnerProject {
         this.codeFile.set(codeFile);
     }
     
+    public File getBindingsFile() {
+        return bindingsFile.get();
+    }
+    
+    public void setBindingsFile(File bindingsFile) {
+        this.bindingsFile.set(bindingsFile);
+    }
+    
     // Methods
     public void build() throws Exception {
         
@@ -96,43 +116,134 @@ public class InnerProject {
 
     }
     
-    public void invokeMaven() {
+    public void cleanProject() throws Exception {
+        
+        InvocationRequest request = new DefaultInvocationRequest();
+        final List<String> MAVEN_GOALS = Collections.singletonList("clean");
+        
+        request.setPomFile(new File(pomFile));
+        request.setGoals(MAVEN_GOALS);
+        
+        Invoker invoker = new DefaultInvoker();
+        // Set maven location?
+        
+        InvocationResult result = invoker.execute(request);
+        final int EXIT_CODE = result.getExitCode();
+        
+        System.out.println("Maven exited with code " + EXIT_CODE);
+        
+        if(EXIT_CODE != 0) {
+            System.out.println("Hello");
+            System.out.println(result.getExecutionException().getMessage());
+            System.out.println("Goodbye");
+            throw new IllegalStateException();
+        }
+    }
+    
+    public void invokeMaven() throws MavenInvocationException, IllegalStateException {
         
         InvocationRequest request = new DefaultInvocationRequest();
         final List<String> MAVEN_GOALS = Arrays.asList("clean", "install", "package");
         
-        request.setPomFile( new File( "/home/peedeeboy/git/uhuru/innerproject/pom.xml" ) );
+        request.setPomFile(new File(pomFile));
         request.setGoals(MAVEN_GOALS);
-
         
         Invoker invoker = new DefaultInvoker();
         // invoker.setMavenHome(null)
+
+        InvocationResult result = invoker.execute(request);
+        System.out.println("Maven exited with code " + result.getExitCode());
         
-        try {
-            InvocationResult result = invoker.execute(request);
-            System.out.println("Maven exited with code " + result.getExitCode());
-        }
-        catch(MavenInvocationException e) {
-            System.out.println(e.getMessage());
-            System.out.println(e.getStackTrace());
+        if(result.getExecutionException() != null) {
+            throw new IllegalStateException();
         }
     }
         
-    public void copyFiles() {
+    public void copyFiles() throws IOException {
 
         File schemaDest = new File(resourcesDirectory + schemaFile.get().getName());
         File dataDest = new File(resourcesDirectory + dataFile.get().getName());
         File codeDest = new File(resourcesDirectory + codeFile.get().getName());
+        File bindingsDest = new File(resourcesDirectory + bindingsFile.get().getName());
         
-        try {
-            Files.copy(schemaFile.get(), schemaDest);
-            Files.copy(dataFile.get(), dataDest);
-            Files.copy(codeFile.get(), codeDest);
+
+        Files.copy(schemaFile.get(), schemaDest);
+        Files.copy(dataFile.get(), dataDest);
+        Files.copy(codeFile.get(), codeDest);
+        Files.copy(bindingsFile.get(), bindingsDest);
+    }
+    
+    
+    public void deleteFiles() throws IOException {
+        
+        File directory = new File(resourcesDirectory);
+        
+        for(File file: directory.listFiles()) {
+            // Don't delete persistance.properties!
+            if(!file.getName().equals("persistence.properties")) {
+                file.delete();
+            }
         }
-        catch(IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+    }
+    
+    
+    public String getSchemaRoot() throws Exception {
+        
+        // Create set to hold names and refs
+        List<String> names = new ArrayList();
+        List<String> refs = new ArrayList();
+        
+        // Create XML factory
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        docFactory.setNamespaceAware(true);
+        DocumentBuilder docBuilder;
+        Document doc = null;
+        
+        // Parse XSD
+        docBuilder = docFactory.newDocumentBuilder();
+        doc = docBuilder.parse(schemaFile.get());
+        
+        // Create XPathFactory
+        XPathFactory xpathFactory = XPathFactory.newInstance();
+
+        // Create XPath object
+        XPath xpath = xpathFactory.newXPath();
+        
+        
+        // Get a list of all element names 
+        XPathExpression nameExp = xpath.compile("/xs:element/@name");
+        NodeList nameNodes = (NodeList) nameExp.evaluate(doc, XPathConstants.NODESET);
+            for (int i = 0; i < nameNodes.getLength(); i++) {
+                names.add(nameNodes.item(i).getNodeValue());
+            }
+        
+        // Get a list of all element refs 
+        XPathExpression refsExp = xpath.compile("/xs:element/@ref");
+        NodeList refNodes = (NodeList) nameExp.evaluate(doc, XPathConstants.NODESET);
+            for (int i = 0; i < refNodes.getLength(); i++) {
+                refs.add(refNodes.item(i).getNodeValue());
+            }    
+        
+        System.out.println("Names");
+        names.forEach(x -> System.out.println(x));
+        System.out.println ("Refs");
+        refs.forEach(x -> System.out.println(x));
+        
+            
+        // Work out the root element by substracting refs from names
+        names.removeAll(refs);
+        
+        System.out.println("Remaining names");
+        names.forEach(x -> System.out.println(x));
+        
+        
+        // If there is anything other than one element name left, something is wrong!
+        if(names.size() != 1) {
+            throw new IllegalStateException("Schema file should contain one root element");
         }
+        
+        return names.get(0);
+            
     }
     
 }
