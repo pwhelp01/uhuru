@@ -12,13 +12,17 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javax.xml.namespace.NamespaceContext;
 import org.apache.maven.cli.MavenCli;
 import org.apache.maven.shared.invoker.DefaultInvocationRequest;
 import org.apache.maven.shared.invoker.DefaultInvoker;
@@ -209,20 +213,42 @@ public class InnerProject {
         // Create XPath object
         XPath xpath = xpathFactory.newXPath();
         
-        
+        // Set namespace context for XML Schema
+        NamespaceContext nsContext = new NamespaceContext() {
+
+                @Override
+                public String getNamespaceURI(String prefix) {
+                    return "http://www.w3.org/2001/XMLSchema";
+                }
+
+                @Override
+                public String getPrefix(String namespaceURI) {
+                    return "xs";
+                }
+
+                @Override
+                public Iterator getPrefixes(String namespaceURI) {
+                    Set s = new HashSet();
+                    s.add("xs");
+                    return s.iterator();
+                }
+
+            };
+        xpath.setNamespaceContext(nsContext);
+
         // Get a list of all element names 
-        XPathExpression nameExp = xpath.compile("/xs:element/@name");
+        XPathExpression nameExp = xpath.compile("//xs:element/@name");
         NodeList nameNodes = (NodeList) nameExp.evaluate(doc, XPathConstants.NODESET);
-            for (int i = 0; i < nameNodes.getLength(); i++) {
-                names.add(nameNodes.item(i).getNodeValue());
-            }
-        
+        for(int i = 0; i < nameNodes.getLength(); i++) {
+            names.add(nameNodes.item(i).getNodeValue());
+        }
+
         // Get a list of all element refs 
-        XPathExpression refsExp = xpath.compile("/xs:element/@ref");
-        NodeList refNodes = (NodeList) nameExp.evaluate(doc, XPathConstants.NODESET);
-            for (int i = 0; i < refNodes.getLength(); i++) {
-                refs.add(refNodes.item(i).getNodeValue());
-            }    
+        XPathExpression refsExp = xpath.compile("//xs:element/@ref");
+        NodeList refNodes = (NodeList) refsExp.evaluate(doc, XPathConstants.NODESET);
+        for(int i = 0; i < refNodes.getLength(); i++) {
+            refs.add(refNodes.item(i).getNodeValue());
+        }    
         
         System.out.println("Names");
         names.forEach(x -> System.out.println(x));
