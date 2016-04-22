@@ -5,18 +5,33 @@
  */
 package uk.ac.richmond;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-import javax.persistence.Persistence;
+
+import java.util.HashMap;
+import java.util.Map;
+/*
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+*/
 
 /**
  *
  * @author pete
  */
 public class Program {
-    
+    /*
+    private EntityManagerFactory entityManagerFactory;
+    private EntityManager entityManager;
+    private JAXBContext context;
+    // private ObjectFactory objectFactory;
+    private Unmarshaller unmarshaller;
+    private Marshaller marshaller;
+    */
     public static void main(String[] args) {
      
     }
+    
+
 }

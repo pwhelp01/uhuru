@@ -8,7 +8,7 @@
     xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
     jaxb:extensionBindingPrefixes="hj orm">
 
-    <jaxb:bindings schemaLocation="C15061.xsd" node="/xs:schema">
+    <jaxb:bindings schemaLocation="C14054.xsd" node="/xs:schema">
 
         <!-- Set all fetch status to EAGER -->
         <hj:persistence>
@@ -22,7 +22,545 @@
         <jaxb:globalBindings localScoping="toplevel" typesafeEnumMaxMembers="2000">
             <jaxb:serializable/>
         </jaxb:globalBindings>
-        
+
+        <!-- ENTITIES -->
+
+        <!-- APStudentRecord -->
+        <!-- Make Provider primary key and foreign key column name-->
+        <jaxb:bindings node="xs:element[@name='APStudentRecord']//xs:complexType//xs:sequence//xs:element[@ref='Provider']">
+            <hj:id />
+        </jaxb:bindings>
+
+
+
+        <!-- Course -->
+        <!-- Make Course ID Primary Key -->
+        <jaxb:bindings node="xs:element[@name='Course']//xs:complexType//xs:sequence//xs:element[@ref='COURSEID']">
+            <hj:id />
+        </jaxb:bindings>
+
+        <!-- Make Join columns have correct names -->
+        <jaxb:bindings node="xs:element[@name='Course']//xs:complexType//xs:sequence//xs:element[@ref='COURSEAIM']">
+            <hj:many-to-one>
+                <orm:join-column name="COURSEAIM" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='Course']//xs:complexType//xs:sequence//xs:element[@ref='REGBODY']">
+            <hj:many-to-one>
+                <orm:join-column name="REGBODY" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='Course']//xs:complexType//xs:sequence//xs:element[@ref='TTCID']">
+            <hj:many-to-one>
+                <orm:join-column name="TTCID" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+
+        <!-- CourseSubject -->
+        <jaxb:bindings node="xs:element[@name='CourseSubject']//xs:complexType//xs:sequence//xs:element[@ref='SBJCA']">
+            <hj:many-to-one>
+                <orm:join-column name="SBJCA" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+
+        <!-- EntryProfile -->
+        <!-- Make Numhus Primary Key
+        <jaxb:bindings node="xs:element[@name='EntryProfile']//xs:complexType//xs:sequence//xs:element[@ref='NUMHUS']">
+            <hj:id />
+        </jaxb:bindings>
+        -->
+
+        <!-- Make Join columns have correct names -->
+        <jaxb:bindings node="xs:element[@name='EntryProfile']//xs:complexType//xs:sequence//xs:element[@ref='DOMICILE']">
+            <hj:many-to-one>
+                <orm:join-column name="DOMICILE" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='EntryProfile']//xs:complexType//xs:sequence//xs:element[@ref='QUALENT3']">
+            <hj:many-to-one>
+                <orm:join-column name="QUALENT3" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+
+        <!-- Instance -->
+        <!-- Make table name 'INSTANCE' rather than 'INSTANCE_' -->
+        <jaxb:bindings node="xs:element[@name='Instance']//xs:complexType">
+            <hj:entity>
+                <orm:table name="INSTANCE" />
+            </hj:entity>
+        </jaxb:bindings>
+
+        <!-- Make Numhus Primary Key -->
+        <!--<jaxb:bindings node="xs:element[@name='Instance']//xs:complexType//xs:sequence//xs:element[@ref='NUMHUS']">
+            <hj:id />
+        </jaxb:bindings>-->
+
+        <!-- Make Join columns have correct names -->
+        <jaxb:bindings node="xs:element[@name='Instance']//xs:complexType//xs:sequence//xs:element[@ref='HEAPESPOP']">
+            <hj:many-to-one>
+                <orm:join-column name="HEAPESPOP" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='Instance']//xs:complexType//xs:sequence//xs:element[@ref='RSNEND']">
+            <hj:many-to-one>
+                <orm:join-column name="RSNEND" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='Instance']//xs:complexType//xs:sequence//xs:element[@ref='UNITLGTH']">
+            <hj:many-to-one>
+                <orm:join-column name="UNITLGTH" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+
+        <!-- InstancePeriod -->
+        <!-- Make PeriodStart and PeriodEnd columns have the right name (instead of PeriodEndItem -->
+        <jaxb:bindings node="xs:element[@name='InstancePeriod']//xs:complexType//xs:sequence//xs:element[@ref='PERIODEND']">
+            <hj:basic>
+                <orm:column name="PERIODEND" />
+            </hj:basic>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='InstancePeriod']//xs:complexType//xs:sequence//xs:element[@ref='PERIODSTART']">
+            <hj:basic>
+                <orm:column name="PERIODSTART" />
+            </hj:basic>
+        </jaxb:bindings>
+
+        <!-- Make Join columns have correct names -->
+        <jaxb:bindings node="xs:element[@name='InstancePeriod']//xs:complexType//xs:sequence//xs:element[@ref='DISALL']">
+            <hj:many-to-one>
+                <orm:join-column name="DISALL" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='InstancePeriod']//xs:complexType//xs:sequence//xs:element[@ref='EXCHIND']">
+            <hj:many-to-one>
+                <orm:join-column name="EXCHIND" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='InstancePeriod']//xs:complexType//xs:sequence//xs:element[@ref='LOCSDY']">
+            <hj:many-to-one>
+                <orm:join-column name="LOCSDY" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='InstancePeriod']//xs:complexType//xs:sequence//xs:element[@ref='MODE']">
+            <hj:many-to-one>
+                <orm:join-column name="MODE" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='InstancePeriod']//xs:complexType//xs:sequence//xs:element[@ref='MSTUFEE']">
+            <hj:many-to-one>
+                <orm:join-column name="MSTUFEE" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='InstancePeriod']//xs:complexType//xs:sequence//xs:element[@ref='NOTACT']">
+            <hj:many-to-one>
+                <orm:join-column name="NOTACT" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='InstancePeriod']//xs:complexType//xs:sequence//xs:element[@ref='SSELIG']">
+            <hj:many-to-one>
+                <orm:join-column name="SSELIG" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+
+        <!-- Provider -->
+        <!-- Make UKPRN Primary Key -->
+        <jaxb:bindings node="xs:element[@name='Provider']//xs:complexType//xs:sequence//xs:element[@ref='UKPRN']">
+            <hj:id />
+        </jaxb:bindings>
+
+        <!-- Make Join columns have correct names -->
+        <jaxb:bindings node="xs:element[@name='Provider']//xs:complexType//xs:sequence//xs:element[@ref='RECID']">
+            <hj:many-to-one>
+                <orm:join-column name="RECID" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='Provider']//xs:complexType//xs:sequence//xs:element[@ref='SUBPURPOSE']">
+            <hj:many-to-one>
+                <orm:join-column name="SUBPURPOSE" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+
+        <!-- QualificationsAwarded -->
+        <!-- Make Join columns have correct names -->
+        <jaxb:bindings node="xs:element[@name='QualificationsAwarded']//xs:complexType//xs:sequence//xs:element[@ref='CLASS']">
+            <hj:many-to-one>
+                <orm:join-column name="CLASS" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='QualificationsAwarded']//xs:complexType//xs:sequence//xs:element[@ref='QUAL']">
+            <hj:many-to-one>
+                <orm:join-column name="QUAL" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+
+        <!-- QualificationsOnEntry -->
+        <!-- Make Join columns have correct names -->
+        <jaxb:bindings node="xs:element[@name='QualificationsOnEntry']//xs:complexType//xs:sequence//xs:element[@ref='QUALGRADE']">
+            <hj:many-to-one>
+                <orm:join-column name="QUALGRADE" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='QualificationsOnEntry']//xs:complexType//xs:sequence//xs:element[@ref='QUALSBJ']">
+            <hj:many-to-one>
+                <orm:join-column name="QUALSBJ" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='QualificationsOnEntry']//xs:complexType//xs:sequence//xs:element[@ref='QUALSIT']">
+            <hj:many-to-one>
+                <orm:join-column name="QUALSIT" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='QualificationsOnEntry']//xs:complexType//xs:sequence//xs:element[@ref='QUALTYPE']">
+            <hj:many-to-one>
+                <orm:join-column name="QUALTYPE" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+
+        <!-- Student -->
+        <!-- Make OWNSTU Primary Key -->
+        <jaxb:bindings node="xs:element[@name='Student']//xs:complexType//xs:sequence//xs:element[@ref='OWNSTU']">
+            <hj:id />
+        </jaxb:bindings>
+
+
+        <!-- Student Equality -->
+        <!-- Make Join columns have correct names -->
+        <jaxb:bindings node="xs:element[@name='StudentEquality']//xs:complexType//xs:sequence//xs:element[@ref='DISABLE']">
+            <hj:many-to-one>
+                <orm:join-column name="DISABLE" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='StudentEquality']//xs:complexType//xs:sequence//xs:element[@ref='ETHNIC']">
+            <hj:many-to-one>
+                <orm:join-column name="ETHNIC" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='StudentEquality']//xs:complexType//xs:sequence//xs:element[@ref='GENDERID']">
+            <hj:many-to-one>
+                <orm:join-column name="GENDERID" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='StudentEquality']//xs:complexType//xs:sequence//xs:element[@ref='NATION']">
+            <hj:many-to-one>
+                <orm:join-column name="NATION" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='StudentEquality']//xs:complexType//xs:sequence//xs:element[@ref='RELBLF']">
+            <hj:many-to-one>
+                <orm:join-column name="RELBLF" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='StudentEquality']//xs:complexType//xs:sequence//xs:element[@ref='SEXID']">
+            <hj:many-to-one>
+                <orm:join-column name="SEXID" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="xs:element[@name='StudentEquality']//xs:complexType//xs:sequence//xs:element[@ref='SEXORT']">
+            <hj:many-to-one>
+                <orm:join-column name="SEXORT" />
+            </hj:many-to-one>
+        </jaxb:bindings>
+
+
+        <!-- LOOKUPS -->
+        <jaxb:bindings schemaLocation="C14054CodeLists.xsd" node="/xs:schema">
+
+            <!-- CLASSCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='CLASSCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- COURSEAIMCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='COURSEAIMCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- DISABLECodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='DISABLECodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- DISALLCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='DISALLCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- DOMICILECodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='DOMICILECodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- ETHNICCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='ETHNICCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- EXCHINDCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='EXCHINDCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- GENDERIDCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='GENDERIDCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- HEAPESPOPCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='HEAPESPOPCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- LOCSDYCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='LOCSDYCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- MODECodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='MODECodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- MSTUFEECodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='MSTUFEECodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- NATIONCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='NATIONCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- NOTACTCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='NOTACTCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- PREVINSTCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='PREVINSTCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- PRIPROVCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='PRIPROVCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- QUALCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='QUALCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- QUALENT3CodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='QUALENT3CodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- QUALGRADECodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='QUALGRADECodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- QUALSBJCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='QUALSBJCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- QUALSITCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='QUALSITCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- QUALTYPECodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='QUALTYPECodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- RECIDCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='RECIDCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- REGBODYCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='REGBODYCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- RELBLFCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='RELBLFCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- RSNENDCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='RSNENDCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- SBJCACodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='SBJCACodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- SEXIDCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='SEXIDCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- SEXORTCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='SEXORTCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- SSELIGCodeType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='SSELIGCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- SUBPURPOSECodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='SUBPURPOSECodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- TTCIDCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='TTCIDCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+            <!-- UNITLGTHCodeContentType : Make VALUE Primary Key -->
+            <jaxb:bindings node="xs:simpleType[@name='UNITLGTHCodeContentType']">
+                <jaxb:javaType name="java.lang.String" />
+                <hj:id>
+                    <orm:column name="VALUE" />
+                </hj:id>
+            </jaxb:bindings>
+
+        </jaxb:bindings>
 
     </jaxb:bindings>
 
