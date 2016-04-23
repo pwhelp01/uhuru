@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>uk.ac.richmond</groupId>
 	<artifactId>innerproject</artifactId>
-	<version>0.5.6</version>
+	<version>1</version>
 	<packaging>jar</packaging>
 	<name>innerproject</name>
 	<dependencies>
@@ -37,12 +37,13 @@
 		</dependency-->
 
 		<!-- Roundtrip -->
-		<dependency>
+		<!--
+                <dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
 			<artifactId>hyperjaxb3-ejb-roundtrip</artifactId>
 			<version>0.5.6</version>
 		</dependency>
-
+                -->
 		<!-- Hibernate Dependencies -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -89,10 +90,12 @@
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
+				
+                                <configuration>
 					<extension>true</extension>
-					<roundtripTestClassName>RoundtripTest</roundtripTestClassName>
+					<!--<roundtripTestClassName>RoundtripTest</roundtripTestClassName>-->
 				</configuration>
+                                
 			</plugin>
 			<plugin>
 				<inherited>true</inherited>

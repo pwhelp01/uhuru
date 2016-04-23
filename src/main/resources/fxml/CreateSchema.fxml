@@ -79,10 +79,10 @@
                   <Label text="Database" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                   <Label text="Username" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
                   <Label text="Password" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                  <TextField GridPane.columnIndex="2" />
-                  <TextField GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <TextField GridPane.columnIndex="4" />
-                  <TextField GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <TextField fx:id="serverTxt" GridPane.columnIndex="2" />
+                  <TextField fx:id="databaseTxt" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField fx:id="usernameTxt" GridPane.columnIndex="4" />
+                  <TextField fx:id="passwordTxt" GridPane.columnIndex="4" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </content>

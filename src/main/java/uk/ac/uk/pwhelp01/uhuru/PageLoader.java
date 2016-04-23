@@ -18,6 +18,7 @@ public class PageLoader {
     public static final String MAIN = "/fxml/Main.fxml";
     public static final String MENU    = "/fxml/Menu.fxml";
     public static final String CREATESCHEMA = "/fxml/CreateSchema.fxml";
+    public static final String SETTINGS = "/fxml/Settings.fxml";
     
     private static MainController mainController;
     

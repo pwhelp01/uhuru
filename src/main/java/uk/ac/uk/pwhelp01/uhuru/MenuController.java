@@ -47,6 +47,17 @@ public class MenuController implements Initializable {
     }
     
     @FXML
+    private void settingsBtnAction(ActionEvent event) {
+        try {
+            System.out.println("Got here!");
+            
+            PageLoader.loadPage(PageLoader.SETTINGS);
+            
+        }
+        catch (Exception e){}
+    }
+    
+    @FXML
     private void exitBtnAction(ActionEvent event) {
         Platform.exit();
     }

@@ -9,6 +9,7 @@ import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,6 +39,8 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+import org.xeustechnologies.jcl.JarClassLoader;
+import org.xeustechnologies.jcl.JclObjectFactory;
 
 /**
  *
@@ -49,6 +52,10 @@ public class InnerProject {
     ObjectProperty<File> dataFile = new SimpleObjectProperty();
     ObjectProperty<File> codeFile = new SimpleObjectProperty();
     ObjectProperty<File> bindingsFile = new SimpleObjectProperty();
+    StringProperty server = new SimpleStringProperty("");
+    StringProperty database = new SimpleStringProperty("");
+    StringProperty username = new SimpleStringProperty("");
+    StringProperty password = new SimpleStringProperty("");
     
     StringProperty buildMessage = new SimpleStringProperty();
     DoubleProperty buildStatus = new SimpleDoubleProperty();
@@ -64,41 +71,90 @@ public class InnerProject {
     
     
     // Constructors
-    public void InnerProject() {
-        
-    }
+    public void InnerProject() {}
+    
+    
     // Getters and setters
-    public File getSchemaFile() {
+    public final File getSchemaFile() {
         return schemaFile.get();
     }
-    
-    public void setSchemaFile(File schemaFile) {
+    public final void setSchemaFile(File schemaFile) {
         this.schemaFile.set(schemaFile);
     }
+    public final ObjectProperty<File> schemaFileProperty() {
+        return schemaFile;
+    }
     
-    public File getDataFile() {
+    public final File getDataFile() {
         return dataFile.get();
     }
-    
-    public void setDataFile(File dataFile) {
+    public final void setDataFile(File dataFile) {
         this.dataFile.set(dataFile);
     }
+    public final ObjectProperty<File> dataFileProperty() {
+        return dataFile;
+    }
     
-    public File getCodeFile() {
+    public final File getCodeFile() {
         return codeFile.get();
     }
-    
-    public void setCodeFile(File codeFile) {
+    public final void setCodeFile(File codeFile) {
         this.codeFile.set(codeFile);
     }
+    public final ObjectProperty<File> codeFileProperty() {
+        return codeFile;
+    }
     
-    public File getBindingsFile() {
+    public final File getBindingsFile() {
         return bindingsFile.get();
     }
-    
-    public void setBindingsFile(File bindingsFile) {
+    public final void setBindingsFile(File bindingsFile) {
         this.bindingsFile.set(bindingsFile);
     }
+    public final ObjectProperty<File> bindingsFileProperty() {
+        return bindingsFile;
+    }
+    
+    public final String getServer() {
+        return server.get();
+    }
+    public final void setServer(String server) {
+        this.server.set(server);
+    }
+    public final StringProperty serverProperty() {
+        return server;
+    }
+    
+    public final String getDatabase() {
+        return database.get();
+    }
+    public final void setDatabase(String database) {
+        this.database.set(database);
+    }
+    public final StringProperty databaseProperty() {
+        return database;
+    }
+    
+    public final String getUsername() {
+        return username.get();
+    }
+    public final void setUsername(String username) {
+        this.username.set(username);
+    }
+    public final StringProperty usernameProperty() {
+        return username;
+    }
+    
+    public final String getPassword() {
+        return password.get();
+    }
+    public final void setPassword(String password) {
+        this.password.set(password);
+    }
+    public final StringProperty passwordProperty() {
+        return password;
+    }
+    
     
     // Methods
     public void build() throws Exception {
@@ -270,6 +326,26 @@ public class InnerProject {
         
         return names.get(0);
             
+    }
+    
+    public void createSchema() throws Exception {
+        
+        JarClassLoader jcl = new JarClassLoader();
+        jcl.add("/home/peedeeboy/git/uhuru/innerproject/target/innerproject-1.jar");
+        JclObjectFactory jclFactory = JclObjectFactory.getInstance();
+        Object dbDaoImpl = jclFactory.create(jcl, "uk.ac.richmond.DatabaseDAO");
+        
+        Class<?> dbDAO = jcl.loadClass("uk.ac.richmond.DatabaseDAO");
+        
+        Method mths[] = dbDAO.getMethods();
+        for(Method x : mths) {
+            System.out.println(x.toGenericString());
+        }
+                
+        Method m = dbDAO.getDeclaredMethod("createSchema", String.class, String.class, String.class, String.class);
+        String args[] = new String[] {server.get(), database.get(), username.get(), password.get()};
+        m.invoke(dbDaoImpl, server.get(), database.get(), username.get(), password.get());
+        
     }
     
 }

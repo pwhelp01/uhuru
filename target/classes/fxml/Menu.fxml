@@ -21,7 +21,7 @@
             <Insets left="100.0" top="40.0" />
          </VBox.margin>
       </Button>
-      <Button fx:id="settingsBtn" minWidth="400.0" mnemonicParsing="false" styleClass="mainmenu-button" text="Settings">
+      <Button fx:id="settingsBtn" minWidth="400.0" mnemonicParsing="false" onAction="#settingsBtnAction" styleClass="mainmenu-button" text="Settings">
          <VBox.margin>
             <Insets left="100.0" top="40.0" />
          </VBox.margin>

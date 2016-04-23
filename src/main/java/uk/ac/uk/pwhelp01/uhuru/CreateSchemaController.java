@@ -40,6 +40,10 @@ public class CreateSchemaController implements Initializable {
     @FXML TextField dataTxt;
     @FXML TextField codeTxt;
     @FXML TextField bindingsTxt;
+    @FXML TextField serverTxt;
+    @FXML TextField databaseTxt;
+    @FXML TextField usernameTxt;
+    @FXML TextField passwordTxt;
     @FXML Label statusLbl;
     @FXML ProgressBar progressPrg;
     
@@ -56,23 +60,25 @@ public class CreateSchemaController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // Bindings
         schemaTxt.textProperty().bind(Bindings.when(innerProject.schemaFile.isNotNull())
-                .then(innerProject.schemaFile.asString())
+                .then(innerProject.schemaFileProperty().asString())
                 .otherwise(""));
         
         dataTxt.textProperty().bind(Bindings.when(innerProject.dataFile.isNotNull())
-                .then(innerProject.dataFile.asString())
+                .then(innerProject.dataFileProperty().asString())
                 .otherwise(""));
    
         codeTxt.textProperty().bind(Bindings.when(innerProject.codeFile.isNotNull())
-                .then(innerProject.codeFile.asString())
+                .then(innerProject.codeFileProperty().asString())
                 .otherwise(""));
         
         bindingsTxt.textProperty().bind(Bindings.when(innerProject.bindingsFile.isNotNull())
-                .then(innerProject.bindingsFile.asString())
+                .then(innerProject.bindingsFileProperty().asString())
                 .otherwise(""));
         
-        statusLbl.textProperty().bind(status);
-        // progressPrg.progressProperty().bind(progress);
+        serverTxt.textProperty().bindBidirectional(innerProject.serverProperty());
+        databaseTxt.textProperty().bindBidirectional(innerProject.databaseProperty());
+        usernameTxt.textProperty().bindBidirectional(innerProject.usernameProperty());
+        passwordTxt.textProperty().bindBidirectional(innerProject.passwordProperty());
         
     }
     
@@ -156,6 +162,13 @@ public class CreateSchemaController implements Initializable {
             progressPrg.setProgress(prog);
             System.out.println();innerProject.getSchemaRoot();
             
+            
+            // Create schema
+            status.set("Creating database schema");
+            prog += 0.2;
+            progressPrg.setProgress(prog);
+            innerProject.createSchema();
+            
             // All done!
             status.set("Success!");
             prog += 0.2;
@@ -183,15 +196,15 @@ public class CreateSchemaController implements Initializable {
     }
     
     
+    // Helper methods
     private File chooseFile(String title, ExtensionFilter filter) {
         FileChooser fileDialog = new FileChooser();
         fileDialog.setTitle(title);
         fileDialog.getExtensionFilters().addAll(filter);
         return fileDialog.showOpenDialog(null);
     }
+
     
-    
-    // Helper methods
     private void disableButtons() {
         processBtn.setDisable(true);
         backBtn.setDisable(true);
