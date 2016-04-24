@@ -12,24 +12,6 @@ public class UhuruApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        //Parent root = FXMLLoader.load(getClass().getResource("/fxml/Main.fxml"));
-        /* 
-        FXMLLoader loader = new FXMLLoader();
-        URL fxmlURL = getClass().getResource("/fxml/Main.fxml");
-        
-        System.out.println (fxmlURL);
-        
-        loader.setLocation(fxmlURL);
-        Parent root = loader.load();
-        
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add("/styles/Styles.css");
-        
-        stage.setTitle("Universal Unistats and HESA Returns Utility");
-        stage.setScene(scene);
-        stage.show();
-        
-          */ 
         
         FXMLLoader loader = new FXMLLoader();
         URL fxmlURL = getClass().getResource("/fxml/Main.fxml");

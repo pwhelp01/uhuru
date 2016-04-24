@@ -186,7 +186,6 @@ public class CreateSchemaController implements Initializable {
         }
     }
     
-    
     @FXML
     private void backBtnAction(ActionEvent event) {
         try {    

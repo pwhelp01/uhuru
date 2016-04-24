@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.uk.pwhelp01.uhuru.SettingsController">
    <children>
       <TitledPane animated="false" collapsible="false" text="Settings">
@@ -42,7 +41,7 @@
       </TitledPane>
       <AnchorPane prefHeight="264.0" prefWidth="600.0">
          <children>
-            <Button fx:id="saveBtn" layoutX="454.0" layoutY="233.0" mnemonicParsing="false" text="Save" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="73.0" />
+            <Button fx:id="saveBtn" layoutX="454.0" layoutY="233.0" mnemonicParsing="false" onAction="#saveBtnAction" text="Save" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="73.0" />
             <Button fx:id="backBtn" layoutX="515.0" layoutY="215.0" mnemonicParsing="false" onAction="#backBtnAction" text="Back" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0" />
             <Label fx:id="statusLbl" layoutX="54.0" layoutY="224.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="14.0" />
          </children>
