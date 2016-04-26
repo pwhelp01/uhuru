@@ -31,6 +31,13 @@ public class Program {
     */
     public static void main(String[] args) {
      
+            DatabaseDAO db = new DatabaseDAO();
+            try {
+                db.populateLookup("TEST", "KIS", "sa", "pwd", "Code", "Value");
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
     }
     
 

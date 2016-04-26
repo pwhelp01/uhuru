@@ -11,6 +11,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import java.net.URL;
+import java.security.ProtectionDomain;
+import javax.persistence.spi.PersistenceProvider;
+import org.hibernate.ejb.HibernatePersistence;
+import generated.*;
 
 /**
  *
@@ -34,11 +39,18 @@ public class DatabaseDAO {
         persistenceProps.put("hibernate.cache.provider_class", "org.hibernate.cache.HashtableCacheProvider");
         persistenceProps.put("hibernate.jdbc.batch_size", "0");
         
+        Accreditation acc = new Accreditation();
+        
+        showLoc(acc.getClass());
     }
     
     
     public void populateLookup  (String server, String database, String username, String password, String name, 
             String value) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+        
+        //showLoc(DatabaseDAO.class);
+        //showLoc(HibernatePersistence.class);
+        //showLoc(PersistenceProvider.class);
         
         // Create Hibernate connection string
         String connectionString = "jdbc:jtds:sqlserver://" + server + "/" + database;
@@ -63,8 +75,19 @@ public class DatabaseDAO {
         Query query = entityManager.createNativeQuery(parsedQueryStr);
         query.setParameter("value", value);
         
-        System.out.println(query.toString());
+        System.out.println(name + " : " + value);
         
+    }
+    
+    
+    public static void showLoc(Class cls)
+    {
+        System.out.println("CLASS = " + cls.getName());
+        ProtectionDomain domain = cls.getProtectionDomain();
+        ClassLoader loader=domain.getClassLoader();
+        URL source = domain.getCodeSource().getLocation();
+        System.out.println("\tloader = " + loader);
+        System.out.println("\tsource = " + source);
     }
     
     

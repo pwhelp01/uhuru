@@ -8,7 +8,11 @@ package uk.ac.uk.pwhelp01.uhuru;
 import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,8 +44,6 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xeustechnologies.jcl.JarClassLoader;
-import org.xeustechnologies.jcl.JclObjectFactory;
 import org.xml.sax.SAXException;
 
 /**
@@ -72,6 +74,9 @@ public class InnerProject {
     File mavenHome = new File(settings.getMavenDir());
     Invoker invoker = new DefaultInvoker();
     
+    Object dbDaoImpl;
+    Class<?> dbDAO;
+
     // Constructors
     public InnerProject() {
         
@@ -204,7 +209,7 @@ public class InnerProject {
     public void invokeMaven() throws MavenInvocationException, IllegalStateException {
         
         InvocationRequest request = new DefaultInvocationRequest();
-        final List<String> MAVEN_GOALS = Arrays.asList("clean", "install", "package");
+        final List<String> MAVEN_GOALS = Arrays.asList("clean", "dependency:copy-dependencies", "install", "package");
         
         request.setPomFile(new File(pomFile));
         request.setGoals(MAVEN_GOALS);
@@ -317,17 +322,37 @@ public class InnerProject {
     }
     
     
-    public void createSchema() throws Exception {
-        
+    public void loadJar() throws Exception {
+        /*
         // Create new Jar ClassLoader
         JarClassLoader jcl = new JarClassLoader();
         
         // Add generated Jar, and load a DatabaseDAO class and object
         jcl.add(jarLocation);
+        // jcl.add(workingDirectory + "/target/lib/");
         JclObjectFactory jclFactory = JclObjectFactory.getInstance();
-        Object dbDaoImpl = jclFactory.create(jcl, "uk.ac.richmond.DatabaseDAO");
+        dbDaoImpl = jclFactory.create(jcl, "uk.ac.richmond.DatabaseDAO");
+        dbDAO = jcl.loadClass("uk.ac.richmond.DatabaseDAO");
+        */
         
-        Class<?> dbDAO = jcl.loadClass("uk.ac.richmond.DatabaseDAO");
+        File jarFile = new File(jarLocation);
+        
+        URL fileURL = jarFile.toURI().toURL();
+        String jarURL = "jar:" + fileURL + "!/";
+        
+        URL urls [] = { new URL(jarURL) };
+        URLClassLoader ucl = new URLClassLoader(urls);
+        
+        // this is required to load file (such as spring/context.xml) into the jar
+        Thread.currentThread().setContextClassLoader(ucl);
+        
+        dbDAO = ucl.loadClass("uk.ac.richmond.DatabaseDAO");
+        dbDaoImpl = dbDAO.newInstance();
+        
+    }
+    
+    
+    public void createSchema() throws Exception {
         
         // Use reflection to get the createSchema method from the class and add it to the object.  Then invoke it.        
         Method m = dbDAO.getDeclaredMethod("createSchema", String.class, String.class, String.class, String.class);
@@ -360,6 +385,10 @@ public class InnerProject {
         updateStatus("Building inner project", 0.5);
         invokeMaven();
         
+        // Loading JAR file
+        updateStatus("Loading generated .jar file", 0.55);
+        loadJar();
+        
         // Get root element of Schema file
         updateStatus("Calculating root element of schema", 0.6);
         schemaRoot = getSchemaRoot();
@@ -367,11 +396,11 @@ public class InnerProject {
         // Create schema
         updateStatus("Creating database schema", 0.7);
         createSchema();
-        
+        /*
         // Populate lookups
         updateStatus("Populating lookup tables", 0.8);
         populateLookups();
-        
+        */
         // All done!
         updateStatus("Success!", 1.0);
 
@@ -379,10 +408,12 @@ public class InnerProject {
     
     
     private void populateLookups() throws XPathExpressionException, SAXException, 
-            IOException, ParserConfigurationException {
+            IOException, ParserConfigurationException, NoSuchMethodException, IllegalAccessException,
+            InvocationTargetException {
         
         // Create set to hold names and refs
         List<String> names = new ArrayList();
+        Method m = dbDAO.getDeclaredMethod("populateLookup", String.class, String.class, String.class, String.class, String.class, String.class);
         
         // Create XML factory
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -434,6 +465,7 @@ public class InnerProject {
         // Cycle through each simple type and process
         for(String name : names) {
             
+            updateStatus("Populating lookup: " + name, 0.8);
             // Create a list to hold the simpleType values
             List<String> values = new ArrayList();
             
@@ -447,7 +479,11 @@ public class InnerProject {
                 values.add(valueNodes.item(i).getNodeValue());
             }
             
-            
+            // Process individual values
+            for(String value : values) {
+                // Use reflection to get the populateLookup method from the class and add it to the object.  Then invoke it.        
+                m.invoke(dbDaoImpl, server.get(), database.get(), username.get(), password.get(), name, value);
+            }
             
             
         }
