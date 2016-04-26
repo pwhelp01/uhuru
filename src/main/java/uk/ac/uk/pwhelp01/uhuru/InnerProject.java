@@ -8,7 +8,6 @@ package uk.ac.uk.pwhelp01.uhuru;
 import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +16,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -24,7 +24,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javax.xml.namespace.NamespaceContext;
-import org.apache.maven.cli.MavenCli;
 import org.apache.maven.shared.invoker.DefaultInvocationRequest;
 import org.apache.maven.shared.invoker.DefaultInvoker;
 import org.apache.maven.shared.invoker.InvocationRequest;
@@ -33,20 +32,25 @@ import org.apache.maven.shared.invoker.Invoker;
 import org.apache.maven.shared.invoker.MavenInvocationException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xeustechnologies.jcl.JarClassLoader;
 import org.xeustechnologies.jcl.JclObjectFactory;
+import org.xml.sax.SAXException;
 
 /**
  *
  * @author peedeeboy
  */
 public class InnerProject {
+    
+    Settings settings = new Settings();
     
     ObjectProperty<File> schemaFile = new SimpleObjectProperty();
     ObjectProperty<File> dataFile = new SimpleObjectProperty();
@@ -57,21 +61,24 @@ public class InnerProject {
     StringProperty username = new SimpleStringProperty("");
     StringProperty password = new SimpleStringProperty("");
     
-    StringProperty buildMessage = new SimpleStringProperty();
-    DoubleProperty buildStatus = new SimpleDoubleProperty();
+    StringProperty status = new SimpleStringProperty();
+    DoubleProperty progress = new SimpleDoubleProperty();
     
-    MavenCli cli = new MavenCli();
-    String workingDirectory = System.getProperty("user.dir") + "/innerproject";
-    String[] args = {"--version"}; //{"clean", "--errors", "-l test.log", "--debug"}; //{"clean", "compile", "dependency:copy-dependencies"};
-    PrintStream stdout = System.out;
-    PrintStream stderr = System.out;
-    
+    String workingDirectory = settings.getInnerProjectDir();
     String resourcesDirectory = workingDirectory + "/src/main/resources/";
-    String pomFile = (workingDirectory + "/pom.xml");
+    String pomFile = workingDirectory + "/pom.xml";
+    String jarLocation = workingDirectory + "/target/innerproject-1.jar";
     
+    File mavenHome = new File(settings.getMavenDir());
+    Invoker invoker = new DefaultInvoker();
     
     // Constructors
-    public void InnerProject() {}
+    public InnerProject() {
+        
+        // Set the Maven home directory
+        invoker.setMavenHome(mavenHome);
+        
+    }
     
     
     // Getters and setters
@@ -154,26 +161,25 @@ public class InnerProject {
     public final StringProperty passwordProperty() {
         return password;
     }
+ 
+    public final String getStatus() {
+        return status.get();
+    }
+    public final void setStatus(String status) {
+        this.status.set(status);
+    }
+    public final StringProperty statusProperty() {
+        return status;
+    }
     
-    
-    // Methods
-    public void build() throws Exception {
-        
-        System.out.println(this.workingDirectory);
-        for(String s : args) {
-            System.out.println(s);
-        }
-        
-        // System.setProperty("maven.multiModuleProjectDirectory", this.workingDirectory);
-        
-        // Build inner project
-        int result = cli.doMain(this.args, this.workingDirectory, this.stdout, this.stderr);
-        
-        // Check if build failed (return value other than 0) and raise error if it did
-        if(result != 0) {
-            throw new Exception("Maven build failed with error code: " + result);
-        }
-
+    public final double getProgress() {
+        return progress.get();
+    }
+    public final void setProgress(double progress) {
+        this.progress.set(progress);
+    }
+    public final DoubleProperty progressProperty() {
+        return progress;
     }
     
     public void cleanProject() throws Exception {
@@ -184,18 +190,13 @@ public class InnerProject {
         request.setPomFile(new File(pomFile));
         request.setGoals(MAVEN_GOALS);
         
-        Invoker invoker = new DefaultInvoker();
-        // Set maven location?
-        
         InvocationResult result = invoker.execute(request);
         final int EXIT_CODE = result.getExitCode();
         
         System.out.println("Maven exited with code " + EXIT_CODE);
         
         if(EXIT_CODE != 0) {
-            System.out.println("Hello");
             System.out.println(result.getExecutionException().getMessage());
-            System.out.println("Goodbye");
             throw new IllegalStateException();
         }
     }
@@ -207,9 +208,6 @@ public class InnerProject {
         
         request.setPomFile(new File(pomFile));
         request.setGoals(MAVEN_GOALS);
-        
-        Invoker invoker = new DefaultInvoker();
-        // invoker.setMavenHome(null)
 
         InvocationResult result = invoker.execute(request);
         System.out.println("Maven exited with code " + result.getExitCode());
@@ -305,19 +303,9 @@ public class InnerProject {
         for(int i = 0; i < refNodes.getLength(); i++) {
             refs.add(refNodes.item(i).getNodeValue());
         }    
-        
-        System.out.println("Names");
-        names.forEach(x -> System.out.println(x));
-        System.out.println ("Refs");
-        refs.forEach(x -> System.out.println(x));
-        
-            
+       
         // Work out the root element by substracting refs from names
-        names.removeAll(refs);
-        
-        System.out.println("Remaining names");
-        names.forEach(x -> System.out.println(x));
-        
+        names.removeAll(refs);     
         
         // If there is anything other than one element name left, something is wrong!
         if(names.size() != 1) {
@@ -328,23 +316,156 @@ public class InnerProject {
             
     }
     
+    
     public void createSchema() throws Exception {
         
+        // Create new Jar ClassLoader
         JarClassLoader jcl = new JarClassLoader();
-        jcl.add("/home/peedeeboy/git/uhuru/innerproject/target/innerproject-1.jar");
+        
+        // Add generated Jar, and load a DatabaseDAO class and object
+        jcl.add(jarLocation);
         JclObjectFactory jclFactory = JclObjectFactory.getInstance();
         Object dbDaoImpl = jclFactory.create(jcl, "uk.ac.richmond.DatabaseDAO");
         
         Class<?> dbDAO = jcl.loadClass("uk.ac.richmond.DatabaseDAO");
         
-        Method mths[] = dbDAO.getMethods();
-        for(Method x : mths) {
-            System.out.println(x.toGenericString());
-        }
-                
+        // Use reflection to get the createSchema method from the class and add it to the object.  Then invoke it.        
         Method m = dbDAO.getDeclaredMethod("createSchema", String.class, String.class, String.class, String.class);
-        String args[] = new String[] {server.get(), database.get(), username.get(), password.get()};
         m.invoke(dbDaoImpl, server.get(), database.get(), username.get(), password.get());
+        
+    }
+    
+    
+    public void process() throws Exception, IOException, MavenInvocationException {
+        
+        String schemaRoot = "";
+        updateStatus("Statring", 0);     
+        
+        // Set status
+        updateStatus("Processing", 0.1);
+        
+        // Clean out the innerproject resources folder
+        updateStatus("Deleting old files", 0.2);
+        deleteFiles();
+        
+        // Clean inner project
+        updateStatus("Cleaning inner project", 0.3);
+        cleanProject();
+        
+        // Copy files needed to build project
+        updateStatus("Copying .XSD and .XJB files", 0.4);
+        copyFiles();
+            
+        // Build inner project
+        updateStatus("Building inner project", 0.5);
+        invokeMaven();
+        
+        // Get root element of Schema file
+        updateStatus("Calculating root element of schema", 0.6);
+        schemaRoot = getSchemaRoot();
+        
+        // Create schema
+        updateStatus("Creating database schema", 0.7);
+        createSchema();
+        
+        // Populate lookups
+        updateStatus("Populating lookup tables", 0.8);
+        populateLookups();
+        
+        // All done!
+        updateStatus("Success!", 1.0);
+
+    }
+    
+    
+    private void populateLookups() throws XPathExpressionException, SAXException, 
+            IOException, ParserConfigurationException {
+        
+        // Create set to hold names and refs
+        List<String> names = new ArrayList();
+        
+        // Create XML factory
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        docFactory.setNamespaceAware(true);
+        DocumentBuilder docBuilder;
+        Document doc = null;
+        
+        // Parse XSD
+        docBuilder = docFactory.newDocumentBuilder();
+        doc = docBuilder.parse(codeFile.get());
+        
+        // Create XPathFactory
+        XPathFactory xpathFactory = XPathFactory.newInstance();
+
+        // Create XPath object
+        XPath xpath = xpathFactory.newXPath();
+        
+        // Set namespace context for XML Schema
+        NamespaceContext nsContext = new NamespaceContext() {
+
+                @Override
+                public String getNamespaceURI(String prefix) {
+                    return "http://www.w3.org/2001/XMLSchema";
+                }
+
+                @Override
+                public String getPrefix(String namespaceURI) {
+                    return "xs";
+                }
+
+                @Override
+                public Iterator getPrefixes(String namespaceURI) {
+                    Set s = new HashSet();
+                    s.add("xs");
+                    return s.iterator();
+                }
+
+            };
+        xpath.setNamespaceContext(nsContext);
+        
+        
+        // Get a list of all simpletype names 
+        XPathExpression nameExp = xpath.compile("//xs:simpleType/@name");
+        NodeList nameNodes = (NodeList) nameExp.evaluate(doc, XPathConstants.NODESET);
+        for(int i = 0; i < nameNodes.getLength(); i++) {
+            names.add(nameNodes.item(i).getNodeValue());
+        }
+        
+        // Cycle through each simple type and process
+        for(String name : names) {
+            
+            // Create a list to hold the simpleType values
+            List<String> values = new ArrayList();
+            
+            // Create XPath expression
+            String exp = "//xs:simpleType[@name='" + name + "']/xs:restriction/xs:enumeration/@value";
+            
+            // Get simpleType values
+            XPathExpression valueExp = xpath.compile(exp);
+            NodeList valueNodes = (NodeList) valueExp.evaluate(doc, XPathConstants.NODESET);
+            for(int i = 0; i < valueNodes.getLength(); i++) {
+                values.add(valueNodes.item(i).getNodeValue());
+            }
+            
+            
+            
+            
+        }
+          
+        
+        
+    }
+    
+    // Helper methods
+    private void updateStatus(String message, double prog) {
+        
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                status.set(message);
+                progress.set(prog);
+            }
+        });
         
     }
     

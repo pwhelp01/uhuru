@@ -13,6 +13,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,6 +37,7 @@ public class CreateSchemaController implements Initializable {
     @FXML Button processBtn;
     @FXML Button backBtn;
     @FXML Button browseBindingsBtn;
+    @FXML Button testBtn;
     @FXML TextField schemaTxt;
     @FXML TextField dataTxt;
     @FXML TextField codeTxt;
@@ -79,6 +81,9 @@ public class CreateSchemaController implements Initializable {
         databaseTxt.textProperty().bindBidirectional(innerProject.databaseProperty());
         usernameTxt.textProperty().bindBidirectional(innerProject.usernameProperty());
         passwordTxt.textProperty().bindBidirectional(innerProject.passwordProperty());
+        
+        statusLbl.textProperty().bind(innerProject.statusProperty());
+        progressPrg.progressProperty().bind(innerProject.progressProperty());
         
     }
     
@@ -212,6 +217,39 @@ public class CreateSchemaController implements Initializable {
     private void enableButtons() {
         processBtn.setDisable(false);
         backBtn.setDisable(false);
+    }
+    
+    @FXML
+    public void processTest(ActionEvent event) {
+        
+        Task<Void> task = new Task<Void>(){
+            
+            @Override
+            public Void call(){
+
+                try {
+
+                    // Disable buttons so user doesn't exit during build process
+                    disableButtons();
+
+                    // Process
+                    innerProject.process();
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    enableButtons();
+                }
+
+                return null;
+            }
+        };
+        
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+        
     }
     
 }

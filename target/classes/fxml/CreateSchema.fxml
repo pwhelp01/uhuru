@@ -101,6 +101,7 @@
          <children>
             <Button fx:id="backBtn" layoutX="524.0" layoutY="7.0" mnemonicParsing="false" onAction="#backBtnAction" text="Back" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0" />
             <Button fx:id="processBtn" layoutX="459.0" layoutY="7.0" mnemonicParsing="false" onAction="#processBtnAction" text="Process" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="73.0" />
+            <Button fx:id="testBtn" layoutX="379.0" layoutY="7.0" mnemonicParsing="false" onAction="#processTest" text="Test" />
          </children></AnchorPane>
    </children>
 </VBox>

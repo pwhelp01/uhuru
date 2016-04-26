@@ -6,9 +6,9 @@
 package uk.ac.uk.pwhelp01.uhuru;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.prefs.BackingStoreException;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -53,6 +53,7 @@ public class SettingsController implements Initializable {
         mavenDirTxt.textProperty().bind(Bindings.when(settings.mavenDirPropety().isNotNull())
                 .then(settings.mavenDirPropety())
                 .otherwise(""));
+        
     }    
     
     
@@ -89,7 +90,7 @@ public class SettingsController implements Initializable {
                 settings.save();
                 statusLbl.textProperty().set("Settings saved");
             }
-            catch(IOException e) {
+            catch(BackingStoreException e) {
                 statusLbl.textProperty().set("Error saving settings");
                 e.printStackTrace();
             }
