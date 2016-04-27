@@ -38,10 +38,7 @@ public class DatabaseDAO {
         persistenceProps.put("hibernate.hbm2ddl.auto", "create");
         persistenceProps.put("hibernate.cache.provider_class", "org.hibernate.cache.HashtableCacheProvider");
         persistenceProps.put("hibernate.jdbc.batch_size", "0");
-        
-        Accreditation acc = new Accreditation();
-        
-        showLoc(acc.getClass());
+
     }
     
     
@@ -76,6 +73,8 @@ public class DatabaseDAO {
         query.setParameter("value", value);
         
         System.out.println(name + " : " + value);
+        entityManager.close();
+        entityManagerFactory.close();
         
     }
     

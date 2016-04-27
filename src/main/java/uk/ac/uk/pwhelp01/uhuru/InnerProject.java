@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -70,6 +69,8 @@ public class InnerProject {
     String resourcesDirectory = workingDirectory + "/src/main/resources/";
     String pomFile = workingDirectory + "/pom.xml";
     String jarLocation = workingDirectory + "/target/innerproject-1.jar";
+    String jarTargetDirectory = settings.getUhuruDir() + "/jars/";
+    String jarDest = "";
     
     File mavenHome = new File(settings.getMavenDir());
     Invoker invoker = new DefaultInvoker();
@@ -249,6 +250,17 @@ public class InnerProject {
         }
     }
     
+    public void copyJar()throws IOException {
+        
+        jarDest = jarTargetDirectory + server.get()+ "-" + database.get() + ".jar";
+        
+        File jarSourceFile = new File(jarLocation);
+        File jarDestFile = new File(jarDest);
+        
+        Files.copy(jarSourceFile, jarDestFile);
+        
+    }
+    
     
     public String getSchemaRoot() throws Exception {
         
@@ -401,6 +413,11 @@ public class InnerProject {
         updateStatus("Populating lookup tables", 0.8);
         populateLookups();
         */
+        
+        // Copy .jar file
+        updateStatus("Copying .jar file", 0.9);
+        copyJar();
+        
         // All done!
         updateStatus("Success!", 1.0);
 
