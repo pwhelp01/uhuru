@@ -16,7 +16,7 @@
             <Insets left="100.0" top="40.0" />
          </VBox.margin>
       </Button>
-      <Button fx:id="createXmlBtn" minWidth="400.0" mnemonicParsing="false" styleClass="mainmenu-button" text="Create XML">
+      <Button fx:id="createXmlBtn" minWidth="400.0" mnemonicParsing="false" onAction="#createXmlBtnAction" styleClass="mainmenu-button" text="Create XML">
          <VBox.margin>
             <Insets left="100.0" top="40.0" />
          </VBox.margin>

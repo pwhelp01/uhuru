@@ -48,10 +48,15 @@ public class MenuController implements Initializable {
     @FXML
     private void createSchemaBtnAction(ActionEvent event) {
         try {
-            System.out.println("Got here!");
-            
             PageLoader.loadPage(PageLoader.CREATESCHEMA);
-            
+        }
+        catch (Exception e){}
+    }
+    
+    @FXML
+    private void createXmlBtnAction(ActionEvent event) {
+        try {
+            PageLoader.loadPage(PageLoader.CREATEXML); 
         }
         catch (Exception e){}
     }
@@ -59,10 +64,7 @@ public class MenuController implements Initializable {
     @FXML
     private void settingsBtnAction(ActionEvent event) {
         try {
-            System.out.println("Got here!");
-            
-            PageLoader.loadPage(PageLoader.SETTINGS);
-            
+            PageLoader.loadPage(PageLoader.SETTINGS);  
         }
         catch (Exception e){}
     }

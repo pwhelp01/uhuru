@@ -8,7 +8,11 @@ package uk.ac.uk.pwhelp01.uhuru;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -48,7 +52,40 @@ public class LocalDbDAO {
         
         // Excute query and close connection
         int i = ps.executeUpdate();  
-
+        ps.close();
         conn.close();
+    }
+    
+    
+    public List<Schema> getSchemaList() throws SQLException {
+        
+        // Create list to hold results
+        List<Schema> results = new ArrayList<Schema>();
+        
+        // Create prepared statement
+        String stmt = "SELECT SERVER, DATABASE, ROOTNODE, JARFILE, TIMESTAMP "
+                + "FROM SCHEMA "
+                + "ORDER BY TIMESTAMP DESC;";
+        PreparedStatement ps = conn.prepareStatement(stmt);
+        
+        // Get result set and cycle through adding each entry to the list
+        ResultSet rs = ps.executeQuery();
+        
+        // Fetch each row from the result set
+        while(rs.next()) {
+            
+            // Variables to hold results
+            String server = rs.getString("SERVER");
+            String database = rs.getString("DATABASE");
+            String rootNode = rs.getString("ROOTNODE");
+            String jarFile = rs.getString("JARFILE");
+            Schema schema = new Schema(server, database, rootNode, jarFile);
+
+            // Add new schema object to list
+            results.add(schema);
+        
+        }
+        
+        return results;
     }
 }
