@@ -42,3 +42,40 @@ CREATE TABLE (SERVER NVARCHAR(255), DATABASE NVARCHAR(255), ROOTNODE NVARCHAR(25
 04-26 21:32:31 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Table "SCHEMA" not found; SQL statement:
 DROP TABLE SCHEMA [42102-176]
+04-27 11:07:51 jdbc[2]: SQLException
+org.h2.jdbc.JdbcSQLException: The object is already closed [90007-140]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:327)
+	at org.h2.message.DbException.get(DbException.java:167)
+	at org.h2.message.DbException.get(DbException.java:144)
+	at org.h2.message.DbException.get(DbException.java:133)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1345)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1323)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:232)
+	at uk.ac.uk.pwhelp01.uhuru.LocalDbDAO.updateSchema(LocalDbDAO.java:43)
+	at uk.ac.uk.pwhelp01.uhuru.InnerProject.updateLocalDb(InnerProject.java:521)
+	at uk.ac.uk.pwhelp01.uhuru.InnerProject.process(InnerProject.java:427)
+	at uk.ac.uk.pwhelp01.uhuru.CreateSchemaController$1.call(CreateSchemaController.java:140)
+	at uk.ac.uk.pwhelp01.uhuru.CreateSchemaController$1.call(CreateSchemaController.java:130)
+	at javafx.concurrent.Task$TaskCallable.call(Task.java:1423)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.lang.Thread.run(Thread.java:745)
+04-27 11:16:24 jdbc[2]: SQLException
+org.h2.jdbc.JdbcSQLException: The object is already closed [90007-140]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:327)
+	at org.h2.message.DbException.get(DbException.java:167)
+	at org.h2.message.DbException.get(DbException.java:144)
+	at org.h2.message.DbException.get(DbException.java:133)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1345)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1323)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:232)
+	at uk.ac.uk.pwhelp01.uhuru.LocalDbDAO.updateSchema(LocalDbDAO.java:43)
+	at uk.ac.uk.pwhelp01.uhuru.InnerProject.updateLocalDb(InnerProject.java:521)
+	at uk.ac.uk.pwhelp01.uhuru.InnerProject.process(InnerProject.java:427)
+	at uk.ac.uk.pwhelp01.uhuru.CreateSchemaController$1.call(CreateSchemaController.java:140)
+	at uk.ac.uk.pwhelp01.uhuru.CreateSchemaController$1.call(CreateSchemaController.java:130)
+	at javafx.concurrent.Task$TaskCallable.call(Task.java:1423)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.lang.Thread.run(Thread.java:745)
+04-27 11:20:38 jdbc[2]: SQLException
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "MERGE INTO SCHEMA (SERVER, DATABASE, ROOTNODE, JARFILE, TIMESTAMP) VALUES(:[*]SERVER, :DATABASE, :ROOTNODE, :JARLOCATION, CURRENT_TIMESTAMP); "; expected "), DEFAULT, NOT, EXISTS, SELECT, FROM"; SQL statement:
+MERGE INTO SCHEMA (SERVER, DATABASE, ROOTNODE, JARFILE, TIMESTAMP) VALUES(:server, :database, :rootnode, :jarlocation, CURRENT_TIMESTAMP); [42001-140]

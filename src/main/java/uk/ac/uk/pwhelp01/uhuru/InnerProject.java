@@ -12,6 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -71,12 +72,14 @@ public class InnerProject {
     String jarLocation = workingDirectory + "/target/innerproject-1.jar";
     String jarTargetDirectory = settings.getUhuruDir() + "/jars/";
     String jarDest = "";
+    String schemaRoot = "";
     
     File mavenHome = new File(settings.getMavenDir());
     Invoker invoker = new DefaultInvoker();
     
     Object dbDaoImpl;
     Class<?> dbDAO;
+    LocalDbDAO localDb;
 
     // Constructors
     public InnerProject() {
@@ -188,6 +191,7 @@ public class InnerProject {
         return progress;
     }
     
+    
     public void cleanProject() throws Exception {
         
         InvocationRequest request = new DefaultInvocationRequest();
@@ -262,7 +266,7 @@ public class InnerProject {
     }
     
     
-    public String getSchemaRoot() throws Exception {
+    public void getSchemaRoot() throws Exception {
         
         // Create set to hold names and refs
         List<String> names = new ArrayList();
@@ -329,7 +333,7 @@ public class InnerProject {
             throw new IllegalStateException("Schema file should contain one root element");
         }
         
-        return names.get(0);
+        schemaRoot =  names.get(0);
             
     }
     
@@ -403,7 +407,7 @@ public class InnerProject {
         
         // Get root element of Schema file
         updateStatus("Calculating root element of schema", 0.6);
-        schemaRoot = getSchemaRoot();
+        getSchemaRoot();
         
         // Create schema
         updateStatus("Creating database schema", 0.7);
@@ -417,6 +421,10 @@ public class InnerProject {
         // Copy .jar file
         updateStatus("Copying .jar file", 0.9);
         copyJar();
+        
+        // Update metadata in local DB
+        updateStatus("Writing metadata to local database", 0.95);
+        updateLocalDb();
         
         // All done!
         updateStatus("Success!", 1.0);
@@ -500,13 +508,17 @@ public class InnerProject {
             for(String value : values) {
                 // Use reflection to get the populateLookup method from the class and add it to the object.  Then invoke it.        
                 m.invoke(dbDaoImpl, server.get(), database.get(), username.get(), password.get(), name, value);
-            }
-            
-            
-        }
-          
+            }  
+        }     
+    }
+    
+    public void updateLocalDb() throws ClassNotFoundException, SQLException {
         
+        // Create new localDB instance
+        localDb = new LocalDbDAO();
         
+        // Save metadata about generated .jar file to the local DB
+        localDb.updateSchema(server.get(), database.get(), schemaRoot, jarLocation);
     }
     
     // Helper methods

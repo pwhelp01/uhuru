@@ -8,6 +8,7 @@ uk/ac/uk/pwhelp01/uhuru/InnerProject.class
 uk/ac/uk/pwhelp01/uhuru/InnerProject$3.class
 uk/ac/uk/pwhelp01/uhuru/SettingsController.class
 uk/ac/uk/pwhelp01/uhuru/PageLoader.class
+uk/ac/uk/pwhelp01/uhuru/LocalDbDAO.class
 uk/ac/uk/pwhelp01/uhuru/CreateSchemaController$1.class
 uk/ac/uk/pwhelp01/uhuru/MainController.class
 uk/ac/uk/pwhelp01/uhuru/Settings.class

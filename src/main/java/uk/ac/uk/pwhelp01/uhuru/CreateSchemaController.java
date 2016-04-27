@@ -127,68 +127,34 @@ public class CreateSchemaController implements Initializable {
     @FXML
     private void processBtnAction(ActionEvent event) {
         
-        int prog = 0;
+        Task<Void> task = new Task<Void>(){
+            
+            @Override
+            public Void call(){
+
+                try {
+                    // Disable buttons so user doesn't exit during build process
+                    disableButtons();
+
+                    // Process
+                    innerProject.process();
+                }
+                catch(Exception e) {
+                    innerProject.statusProperty().set("Error: " + e.getMessage());
+                    e.printStackTrace();
+                }
+                finally {
+                    enableButtons();
+                }
+
+                return null;
+            }
+        };
         
-        String dir = System.getProperty("user.dir");
-        System.out.println(dir);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
         
-        try {
-            
-            // Set status
-            status.set("Processing");
-            prog += 0.2;
-            progressPrg.setProgress(prog);
-            
-            // Disable buttons so user doesn't exit during build process
-            disableButtons();
-            
-            // Clean out the innerproject resources folder
-            status.set("Deleting old files");
-            prog += 0.2;
-            progressPrg.setProgress(prog);
-            innerProject.deleteFiles();
-            
-            // Copy files needed to build project
-            status.set("Copying .XSD and .XJB files");
-            prog += 0.2;
-            progressPrg.setProgress(prog);
-            innerProject.copyFiles();
-            
-            // Build inner project
-            status.set("Building inner project");
-            prog += 0.2;
-            progressPrg.setProgress(prog);
-            innerProject.invokeMaven();
-            
-            
-            // Get root element of Schema file
-            status.set("Calculating root element of schema");
-            prog += 0.2;
-            progressPrg.setProgress(prog);
-            System.out.println();innerProject.getSchemaRoot();
-            
-            
-            // Create schema
-            status.set("Creating database schema");
-            prog += 0.2;
-            progressPrg.setProgress(prog);
-            innerProject.createSchema();
-            
-            // All done!
-            status.set("Success!");
-            prog += 0.2;
-            progressPrg.setProgress(prog);
-            
-        }
-        catch(Exception e) {
-            status.set("Error: " + e.getLocalizedMessage() + " : " + e.getMessage());
-            e.printStackTrace();
-            System.out.println("GOT HERE");
-        }
-        finally {
-            // Re-enable Process and Back buttons
-            enableButtons();
-        }
     }
     
     @FXML
@@ -222,33 +188,7 @@ public class CreateSchemaController implements Initializable {
     @FXML
     public void processTest(ActionEvent event) {
         
-        Task<Void> task = new Task<Void>(){
-            
-            @Override
-            public Void call(){
-
-                try {
-
-                    // Disable buttons so user doesn't exit during build process
-                    disableButtons();
-
-                    // Process
-                    innerProject.process();
-                }
-                catch(Exception e) {
-                    e.printStackTrace();
-                }
-                finally {
-                    enableButtons();
-                }
-
-                return null;
-            }
-        };
         
-        Thread th = new Thread(task);
-        th.setDaemon(true);
-        th.start();
         
     }
     
