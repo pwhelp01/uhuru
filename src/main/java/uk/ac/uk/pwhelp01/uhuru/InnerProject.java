@@ -412,11 +412,11 @@ public class InnerProject {
         // Create schema
         updateStatus("Creating database schema", 0.7);
         createSchema();
-        /*
+        
         // Populate lookups
         updateStatus("Populating lookup tables", 0.8);
         populateLookups();
-        */
+        
         
         // Copy .jar file
         updateStatus("Copying .jar file", 0.9);
@@ -518,7 +518,7 @@ public class InnerProject {
         localDb = new LocalDbDAO();
         
         // Save metadata about generated .jar file to the local DB
-        localDb.updateSchema(server.get(), database.get(), schemaRoot, jarLocation);
+        localDb.updateSchema(server.get(), database.get(), schemaRoot, jarDest);
     }
     
     // Helper methods

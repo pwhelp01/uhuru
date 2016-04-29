@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
@@ -17,9 +18,9 @@
          <content>
             <GridPane>
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="187.0" minWidth="10.0" prefWidth="117.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="331.0" minWidth="10.0" prefWidth="325.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="113.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -27,13 +28,31 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="browseSchemaBtn" mnemonicParsing="false" onAction="#schemaBrowseBtnAction" text="Browse" GridPane.columnIndex="2" />
-                  <Button fx:id="browseDataBtn" mnemonicParsing="false" onAction="#dataBrowseBtnAction" text="Browse" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Button fx:id="browseCodeBtn" mnemonicParsing="false" onAction="#codeBrowseBtnAction" text="Browse" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <Label text="Schema" GridPane.halignment="RIGHT" />
-                  <Label text="Data Types" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                  <Label text="Code Values" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-                  <TextField fx:id="schemaTxt" editable="false" GridPane.columnIndex="1" />
+                  <Button fx:id="browseSchemaBtn" mnemonicParsing="false" onAction="#schemaBrowseBtnAction" text="Browse" GridPane.columnIndex="2">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></Button>
+                  <Button fx:id="browseDataBtn" mnemonicParsing="false" onAction="#dataBrowseBtnAction" text="Browse" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></Button>
+                  <Button fx:id="browseCodeBtn" mnemonicParsing="false" onAction="#codeBrowseBtnAction" text="Browse" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></Button>
+                  <Label text="Schema" GridPane.halignment="RIGHT">
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding></Label>
+                  <Label text="Data Types" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding></Label>
+                  <Label text="Code Values" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin></Label>
+                  <TextField fx:id="schemaTxt" editable="false" prefWidth="312.0" GridPane.columnIndex="1" />
                   <TextField fx:id="dataTxt" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="codeTxt" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
@@ -44,17 +63,23 @@
          <content>
             <GridPane>
                <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="185.0" minWidth="10.0" prefWidth="121.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="353.0" minWidth="10.0" prefWidth="330.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="119.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button fx:id="browseBindingsBtn" mnemonicParsing="false" onAction="#bindingsBrowseBtnAction" text="Browse" GridPane.columnIndex="2" />
-                  <Label text="Bindings" GridPane.halignment="RIGHT" />
-                  <TextField fx:id="bindingsTxt" editable="false" GridPane.columnIndex="1" />
+                  <Button fx:id="browseBindingsBtn" mnemonicParsing="false" onAction="#bindingsBrowseBtnAction" text="Browse" GridPane.columnIndex="2">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></Button>
+                  <Label text="Bindings" GridPane.halignment="RIGHT">
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding></Label>
+                  <TextField fx:id="bindingsTxt" editable="false" prefHeight="26.0" prefWidth="324.0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
          </content>
@@ -63,8 +88,8 @@
          <content>
             <GridPane>
               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="74.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.0" minWidth="10.0" prefWidth="70.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="62.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.0" minWidth="10.0" prefWidth="79.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.0" minWidth="10.0" prefWidth="143.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="146.0" />
@@ -75,10 +100,22 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Server" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
-                  <Label text="Database" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                  <Label text="Username" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
-                  <Label text="Password" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <Label text="Server" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin></Label>
+                  <Label text="Database" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin></Label>
+                  <Label text="Username" GridPane.columnIndex="3" GridPane.halignment="RIGHT">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin></Label>
+                  <Label text="Password" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding></Label>
                   <TextField fx:id="serverTxt" GridPane.columnIndex="2" />
                   <TextField fx:id="databaseTxt" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <TextField fx:id="usernameTxt" GridPane.columnIndex="4" />
@@ -101,7 +138,6 @@
          <children>
             <Button fx:id="backBtn" layoutX="524.0" layoutY="7.0" mnemonicParsing="false" onAction="#backBtnAction" text="Back" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0" />
             <Button fx:id="processBtn" layoutX="459.0" layoutY="7.0" mnemonicParsing="false" onAction="#processBtnAction" text="Process" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="73.0" />
-            <Button fx:id="testBtn" layoutX="379.0" layoutY="7.0" mnemonicParsing="false" onAction="#processTest" text="Test" />
          </children></AnchorPane>
    </children>
 </VBox>

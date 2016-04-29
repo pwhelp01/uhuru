@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
@@ -29,6 +30,7 @@ public class UhuruApp extends Application {
         scene.getStylesheets().add("/styles/Styles.css");
         
         stage.setTitle("Universal HESA and Unistats Returns Utility");
+        stage.getIcons().add(new Image("/icons/icon.png"));
         stage.setScene(scene);
         stage.show();
                       

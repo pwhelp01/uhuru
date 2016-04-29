@@ -37,7 +37,7 @@ public class CreateSchemaController implements Initializable {
     @FXML Button processBtn;
     @FXML Button backBtn;
     @FXML Button browseBindingsBtn;
-    @FXML Button testBtn;
+    // @FXML Button testBtn;
     @FXML TextField schemaTxt;
     @FXML TextField dataTxt;
     @FXML TextField codeTxt;
@@ -128,7 +128,7 @@ public class CreateSchemaController implements Initializable {
     private void processBtnAction(ActionEvent event) {
         
         Task<Void> task = new Task<Void>(){
-            
+      
             @Override
             public Void call(){
 
@@ -140,13 +140,12 @@ public class CreateSchemaController implements Initializable {
                     innerProject.process();
                 }
                 catch(Exception e) {
-                    innerProject.statusProperty().set("Error: " + e.getMessage());
+                    innerProject.setStatus("Error: " + e.getMessage());
                     e.printStackTrace();
                 }
                 finally {
                     enableButtons();
                 }
-
                 return null;
             }
         };
