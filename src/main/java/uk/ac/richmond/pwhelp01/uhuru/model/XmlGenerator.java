@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package uk.ac.richmond.pwhelp01.uhuru.model;
 
 import java.io.File;
@@ -17,7 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- *
+ * Model class that generates the XML from data in the relational schema
  * @author peedeeboy
  */
 public class XmlGenerator {
@@ -33,6 +29,10 @@ public class XmlGenerator {
     
     
     // Constructors
+    /**
+     * Creates a new XmlGenerator instance
+     * @throws Exception Error occurred during XML generation
+     */
     public XmlGenerator() throws Exception {
         
         // Get schemas from the local database

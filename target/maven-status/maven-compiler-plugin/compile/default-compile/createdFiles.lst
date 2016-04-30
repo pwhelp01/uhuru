@@ -3,6 +3,7 @@ uk/ac/richmond/pwhelp01/uhuru/model/InnerProject$2.class
 uk/ac/richmond/pwhelp01/uhuru/controller/CreateXmlController.class
 uk/ac/richmond/pwhelp01/uhuru/model/XmlGenerator.class
 uk/ac/richmond/pwhelp01/uhuru/controller/SettingsController.class
+uk/ac/richmond/pwhelp01/uhuru/model/InnerProject$4.class
 uk/ac/richmond/pwhelp01/uhuru/model/LocalDbDAO.class
 uk/ac/richmond/pwhelp01/uhuru/model/InnerProject.class
 uk/ac/richmond/pwhelp01/uhuru/controller/MenuController.class

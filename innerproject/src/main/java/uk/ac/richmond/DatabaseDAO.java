@@ -18,12 +18,21 @@ import org.hibernate.ejb.HibernatePersistence;
 import generated.*;
 
 /**
- *
+ * Data Access Object for the SQL Server database
+ * 
+ * <p>Acts as a facade for the generated classes
  * @author peedeeboy
  */
 public class DatabaseDAO {
     
-    
+    /**
+     * Create a new relational schema in the SQL Server database
+     * 
+     * @param server SQL Server hostname
+     * @param database Database name
+     * @param username Username to connect to SQL Server
+     * @param password PAssword to connect ot SQL Server
+     */
     public void createSchema(String server, String database, String username, String password) {
         
         // Create Hibernate connection string
@@ -41,13 +50,20 @@ public class DatabaseDAO {
 
     }
     
-    
+    /**
+     * Populate a lookup table in the SQL Server
+     * @param server SQL Server Hostname
+     * @param database Database name
+     * @param username Username for SQL Server connection
+     * @param password Password for SQL Server connection
+     * @param name Name of the table to populate 
+     * @param value Lookup value to populate into the table
+     * @throws ClassNotFoundException Error loading SQL Server driver
+     * @throws InstantiationException Error creating entity
+     * @throws IllegalAccessException Error creating entity
+     */
     public void populateLookup  (String server, String database, String username, String password, String name, 
             String value) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        
-        //showLoc(DatabaseDAO.class);
-        //showLoc(HibernatePersistence.class);
-        //showLoc(PersistenceProvider.class);
         
         // Create Hibernate connection string
         String connectionString = "jdbc:jtds:sqlserver://" + server + "/" + database;
@@ -76,19 +92,6 @@ public class DatabaseDAO {
         entityManager.close();
         entityManagerFactory.close();
         
-    }
-    
-    
-    public static void showLoc(Class cls)
-    {
-        System.out.println("CLASS = " + cls.getName());
-        ProtectionDomain domain = cls.getProtectionDomain();
-        ClassLoader loader=domain.getClassLoader();
-        URL source = domain.getCodeSource().getLocation();
-        System.out.println("\tloader = " + loader);
-        System.out.println("\tsource = " + source);
-    }
-    
-    
+    } 
     
 }

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package uk.ac.richmond.pwhelp01.uhuru.model;
 
 import java.sql.Connection;
@@ -15,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Data access object to communicate with the local H2 database
  * @author peedeeboy
  */
 public class LocalDbDAO {
@@ -23,18 +19,33 @@ public class LocalDbDAO {
     Connection conn;
     Settings settings = new Settings();
     
+    /**
+     * Create a new LocalDbDAO instance
+     * @throws ClassNotFoundException Could not load H2 driver
+     * @throws SQLException Error creating connection to database
+     */
     public LocalDbDAO() throws ClassNotFoundException, SQLException {
         
         // Build connection string
         String connStr = "jdbc:h2:" + settings.getUhuruDir() + "/database";
         
-        // Get H2 drive
+        // Get H2 driver
         Class.forName("org.h2.Driver");
         
         // Create connection
         conn = DriverManager.getConnection(connStr, "sa", "");
     }
     
+    /**
+     * Add / Update metadata about a scheama
+     * 
+     * <p>Inserts/updates a row in the SCHEMA table
+     * @param server Server name of the SQL Server
+     * @param database Database name in the SQL Server
+     * @param rootNode Rootnode of the main .xsd schema file
+     * @param jarLocation Path to the generated .jar file
+     * @throws SQLException Error updating local H2 database
+     */
     public void updateSchema(String server, String database, String rootNode, String jarLocation) 
         throws SQLException {
         
@@ -56,7 +67,12 @@ public class LocalDbDAO {
         conn.close();
     }
     
-    
+    /**
+     * Get all elements from the SCHEMA table
+     * 
+     * @return List of Schema elements
+     * @throws SQLException Error occurred querying database
+     */
     public List<Schema> getSchemaList() throws SQLException {
         
         // Create list to hold results

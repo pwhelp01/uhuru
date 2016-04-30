@@ -7,14 +7,11 @@ import java.util.prefs.Preferences;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
+ * Class to store application settings
+ * 
+ * <p>Uses the preferecnes API, which will store the preference in either the 
+ * registry (Windows) or /home/.java (*nix)
  * @author peedeeboy
  */
 public class Settings {
@@ -25,7 +22,9 @@ public class Settings {
     
     private Preferences prefs = Preferences.userRoot().node("uk/ac/pwhelp01/uhuru");
     
-    
+    /**
+     * Construct a new instance of Settigns
+     */
     public Settings() {
             
             // Get settings from user preferences
@@ -68,6 +67,11 @@ public class Settings {
     
     
     // Logic
+    /**
+     * Check settings are valid (are files exist)
+     * 
+     * @return True if settings valid
+     */
     public boolean validate() {
         
         // Get directories from properties file
@@ -90,7 +94,10 @@ public class Settings {
         return validProps;
     }
     
-    
+    /**
+     * Save settings to Persistence store
+     * @throws BackingStoreException 
+     */
     public void save() throws BackingStoreException {
         
         // Save preferences

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package uk.ac.richmond.pwhelp01.uhuru.model;
 
 import com.google.common.io.Files;
@@ -47,7 +42,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- *
+ * Object representation of the Inner Project
+ * 
+ * <p>Contains business logic for creating the relational schema
  * @author peedeeboy
  */
 public class InnerProject {
@@ -82,13 +79,15 @@ public class InnerProject {
     LocalDbDAO localDb;
 
     // Constructors
+    /**
+     * Create a new instance of InnerProject
+     */
     public InnerProject() {
         
         // Set the Maven home directory
         invoker.setMavenHome(mavenHome);
         
     }
-    
     
     // Getters and setters
     public final File getSchemaFile() {
@@ -191,59 +190,89 @@ public class InnerProject {
         return progress;
     }
     
-    
+    /**
+     * Invoke the Maven clean process on the Inner Project
+     * 
+     * <p>Will delete the /target directory and any previously generated classes
+     * @throws Exception Error occurred whilst invoking Maven
+     */
     public void cleanProject() throws Exception {
         
+        // Create a new Maven invokation request with the CLEAN goal
         InvocationRequest request = new DefaultInvocationRequest();
         final List<String> MAVEN_GOALS = Collections.singletonList("clean");
         
+        // Set the .pom file to that of the Inner Project
         request.setPomFile(new File(pomFile));
         request.setGoals(MAVEN_GOALS);
         
+        // Invoke Maven and catch the Maven result code
         InvocationResult result = invoker.execute(request);
         final int EXIT_CODE = result.getExitCode();
         
+        // Debugging
         System.out.println("Maven exited with code " + EXIT_CODE);
         
+        // If Maven exits with a code > 0, an error occurred 
         if(EXIT_CODE != 0) {
             System.out.println(result.getExecutionException().getMessage());
             throw new IllegalStateException();
         }
     }
     
+    /**
+     * Build the Inner Project with Maven
+     * 
+     * <p>Compiles the Inner Project to an Uber-jar
+     * @throws MavenInvocationException Error occurred whilst invoking Maven
+     * @throws IllegalStateException Maven exited with an error code
+     */
     public void invokeMaven() throws MavenInvocationException, IllegalStateException {
         
+        // Create a new Maven invokation request
         InvocationRequest request = new DefaultInvocationRequest();
         final List<String> MAVEN_GOALS = Arrays.asList("clean", "dependency:copy-dependencies", "install", "package");
         
+        // Set the .pom file to that of the Inner Project
         request.setPomFile(new File(pomFile));
         request.setGoals(MAVEN_GOALS);
 
+        // Invoke Maven and catch the Maven result code
         InvocationResult result = invoker.execute(request);
         System.out.println("Maven exited with code " + result.getExitCode());
         
+        // Check if Maven reports an error in build process
         if(result.getExecutionException() != null) {
             throw new IllegalStateException();
         }
     }
         
-    public void copyFiles() throws IOException {
-
+    /**
+     * Copy the .xsd and .xjb files to the /resources directory of the Inner Project
+     * @throws IOException Error occurred whilst copying files
+     */
+    private void copyFiles() throws IOException {
+        
+        // Caclulate file destinations
         File schemaDest = new File(resourcesDirectory + schemaFile.get().getName());
         File dataDest = new File(resourcesDirectory + dataFile.get().getName());
         File codeDest = new File(resourcesDirectory + codeFile.get().getName());
         File bindingsDest = new File(resourcesDirectory + bindingsFile.get().getName());
         
-
+        // Copy files
         Files.copy(schemaFile.get(), schemaDest);
         Files.copy(dataFile.get(), dataDest);
         Files.copy(codeFile.get(), codeDest);
         Files.copy(bindingsFile.get(), bindingsDest);
     }
     
-    
-    public void deleteFiles() throws IOException {
+    /**
+     * Delete files from the /resources directory of the Inner Project
+     * @throws IOException Error occurred whilst deleting files
+     */
+    private void deleteFiles() throws IOException {
         
+        // Get the /resources directory of the Inner Project
         File directory = new File(resourcesDirectory);
         
         for(File file: directory.listFiles()) {
@@ -254,19 +283,32 @@ public class InnerProject {
         }
     }
     
-    public void copyJar()throws IOException {
+    /**
+     * Copy and rename the generated .jar file
+     * 
+     * <p>.jar will be renamed SERVER-DATABASE.jar and moved to the /uhuru/jars
+     * directory
+     * @throws IOException Error occurred whilst moving .jar file
+     */
+    private void copyJar()throws IOException {
         
+        // Calculate name
         jarDest = jarTargetDirectory + server.get()+ "-" + database.get() + ".jar";
         
+        // Copy file
         File jarSourceFile = new File(jarLocation);
         File jarDestFile = new File(jarDest);
-        
         Files.copy(jarSourceFile, jarDestFile);
         
     }
     
-    
-    public void getSchemaRoot() throws Exception {
+    /**
+     * Calculate the root element of the main .xsd schema file
+     * 
+     * <p>The root element will be the relative complement of ref in name
+     * @throws Exception 
+     */
+    private void getSchemaRoot() throws Exception {
         
         // Create set to hold names and refs
         List<String> names = new ArrayList();
@@ -337,38 +379,38 @@ public class InnerProject {
             
     }
     
-    
-    public void loadJar() throws Exception {
-        /*
-        // Create new Jar ClassLoader
-        JarClassLoader jcl = new JarClassLoader();
+    /**
+     * Load an instance of the DatabaseDAO class from the generated .jar
+     * @throws Exception Error occurred loading DatabaseDAO class
+     */
+    private void loadJar() throws Exception {
         
-        // Add generated Jar, and load a DatabaseDAO class and object
-        jcl.add(jarLocation);
-        // jcl.add(workingDirectory + "/target/lib/");
-        JclObjectFactory jclFactory = JclObjectFactory.getInstance();
-        dbDaoImpl = jclFactory.create(jcl, "uk.ac.richmond.DatabaseDAO");
-        dbDAO = jcl.loadClass("uk.ac.richmond.DatabaseDAO");
-        */
-        
+        // Get generated .jar location
         File jarFile = new File(jarLocation);
         
+        // Create a new URLClassLoader and pass the jar
         URL fileURL = jarFile.toURI().toURL();
         String jarURL = "jar:" + fileURL + "!/";
         
         URL urls [] = { new URL(jarURL) };
         URLClassLoader ucl = new URLClassLoader(urls);
         
-        // this is required to load file (such as spring/context.xml) into the jar
+        // this is required to load non class files into the jar
         Thread.currentThread().setContextClassLoader(ucl);
         
+        // Load instance of DatabaseDAO class
         dbDAO = ucl.loadClass("uk.ac.richmond.DatabaseDAO");
         dbDaoImpl = dbDAO.newInstance();
         
     }
     
-    
-    public void createSchema() throws Exception {
+    /**
+     * Create relational schema
+     * 
+     * <pCalls the DatabaseDAO.createSchema() method via Reflection
+     * @throws Exception Error occurred generating schema
+     */
+    private void createSchema() throws Exception {
         
         // Use reflection to get the createSchema method from the class and add it to the object.  Then invoke it.        
         Method m = dbDAO.getDeclaredMethod("createSchema", String.class, String.class, String.class, String.class);
@@ -376,7 +418,14 @@ public class InnerProject {
         
     }
     
-    
+    /**
+     * Generate Relational Schema
+     * 
+     * <p>Calls each build step in order
+     * @throws Exception Error occurred
+     * @throws IOException Error occurred copying files
+     * @throws MavenInvocationException Error occurred whislt invoking Maven
+     */
     public void process() throws Exception, IOException, MavenInvocationException {
         
         String schemaRoot = "";
@@ -431,7 +480,17 @@ public class InnerProject {
 
     }
     
-    
+    /**
+     * Populate the lookup tables in the relational database
+     * 
+     * @throws XPathExpressionException Error occurred compiling XPath expression
+     * @throws SAXException Error occurred parsing .xsd
+     * @throws IOException Error occurred accessing file
+     * @throws ParserConfigurationException Error parsing .xsd
+     * @throws NoSuchMethodException Error occurred reflecting DatabaseDAO class
+     * @throws IllegalAccessException Error occurred invoking DatabaseDAO
+     * @throws InvocationTargetException Error occurred invoking DatabaseDAO
+     */
     private void populateLookups() throws XPathExpressionException, SAXException, 
             IOException, ParserConfigurationException, NoSuchMethodException, IllegalAccessException,
             InvocationTargetException {
@@ -512,6 +571,12 @@ public class InnerProject {
         }     
     }
     
+    /**
+     * Insert metadata about the generated schema into the local database
+     * 
+     * @throws ClassNotFoundException Error loading H2 driver
+     * @throws SQLException Error inserting/updating row in database
+     */
     public void updateLocalDb() throws ClassNotFoundException, SQLException {
         
         // Create new localDB instance
@@ -522,6 +587,12 @@ public class InnerProject {
     }
     
     // Helper methods
+    /**
+     * Update the status message the progress percentage
+     * 
+     * @param message Status message
+     * @param prog Progress percentage
+     */
     private void updateStatus(String message, double prog) {
         
         Platform.runLater(new Runnable() {
@@ -534,6 +605,11 @@ public class InnerProject {
         
     }
     
+    /**
+     * Set just the status message
+     * 
+     * @param message Status message
+     */
     public void errorStatus(String message) {
         
         Platform.runLater(new Runnable() {
