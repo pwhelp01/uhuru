@@ -1,9 +1,6 @@
-.button {
-    -fx-font-weight: bold;
-}
-
 .mainmenu-button {
     -fx-alignment: CENTER;
     -fx-padding: 10 50 10 50;
+    -fx-font-weight: bold;
     min-width: 150;
 }

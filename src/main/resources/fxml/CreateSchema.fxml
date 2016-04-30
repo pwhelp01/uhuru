@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.uk.pwhelp01.uhuru.CreateSchemaController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.richmond.pwhelp01.uhuru.controller.CreateSchemaController">
    <children>
       <TitledPane animated="false" collapsible="false" prefHeight="144.0" prefWidth="600.0" text="Schema (.xsd) Files">
          <content>

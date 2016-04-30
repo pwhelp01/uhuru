@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" stylesheets="@../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.uk.pwhelp01.uhuru.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="600.0" stylesheets="@../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.richmond.pwhelp01.uhuru.controller.MainController">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -18,12 +18,12 @@
                   <Image url="@../images/richmond-logo-grey.png" />
                </image>
             </ImageView>
-            <Label text="Universal Hesa and Unistats Returns Utility">
+            <Label prefHeight="75.0" prefWidth="272.0" text="Universal Hesa and Unistats Returns Utility" wrapText="true">
                <font>
-                  <Font name="Final Frontier Old Style" size="28.0" />
+                  <Font name="Final Frontier Old Style" size="32.0" />
                </font>
                <HBox.margin>
-                  <Insets left="5.0" top="25.0" />
+                  <Insets left="10.0" top="10.0" />
                </HBox.margin>
             </Label>
          </children>

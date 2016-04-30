@@ -13,8 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.uk.pwhelp01.uhuru.CreateXmlController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.richmond.pwhelp01.uhuru.controller.CreateXmlController">
    <children>
       <TitledPane animated="false" collapsible="false" text="Schema to convert to XML">
          <content>
@@ -106,7 +105,7 @@
             </VBox>
          </content>
       </TitledPane>
-      <AnchorPane prefHeight="39.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+      <AnchorPane prefWidth="600.0" VBox.vgrow="ALWAYS">
          <children>
             <Button fx:id="backBtn" layoutX="524.0" layoutY="7.0" mnemonicParsing="false" onAction="#backBtnAction" text="Back" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0" />
             <Button fx:id="processBtn" layoutX="459.0" layoutY="7.0" mnemonicParsing="false" onAction="#processBtnAction" text="Process" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="73.0" />
