@@ -115,6 +115,12 @@ public class XmlGenerator {
     
     
     // Business Logic
+    /**
+     * Generate a new XML document from a relational schema
+     * 
+     * <p>Calls each build stage of the XmlGenerator in order
+     * @throws Exception Something went wrong
+     */
     public void process() throws Exception {
         
         updateStatus("Statring", 0);     
@@ -129,9 +135,12 @@ public class XmlGenerator {
         // Clean generate XML
         updateStatus("Generate XML", 0.5);
         generateXml();
+        
+        // Done!
+        updateStatus("Success!", 1.0);
     }
     
-        /**
+     /**
      * Load an instance of the DatabaseDAO class from the generated .jar
      * @throws Exception Error occurred loading DatabaseDAO class
      */
@@ -156,6 +165,10 @@ public class XmlGenerator {
         
     }
 
+    /**
+     * 
+     * @throws Exception 
+     */
     private void generateXml() throws Exception {
         
         // Use reflection to get the createXml method from the class and add it to the object.  Then invoke it.        
