@@ -1,1 +1,1 @@
-Final\ Frontier\ Old\ Style\=/fonts/FINALOLD.ttf
+Final\ Frontier\ Old\ Style\=/fonts/FINALOLD.TTF

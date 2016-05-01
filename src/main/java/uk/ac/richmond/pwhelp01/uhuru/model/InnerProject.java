@@ -427,8 +427,7 @@ public class InnerProject {
      * @throws MavenInvocationException Error occurred whislt invoking Maven
      */
     public void process() throws Exception, IOException, MavenInvocationException {
-        
-        String schemaRoot = "";
+
         updateStatus("Statring", 0);     
         
         // Set status

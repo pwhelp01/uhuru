@@ -9,6 +9,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import uk.ac.richmond.pwhelp01.uhuru.PageLoader;
+import uk.ac.richmond.pwhelp01.uhuru.model.Schema;
 import uk.ac.richmond.pwhelp01.uhuru.model.XmlGenerator;
 
 /**
@@ -31,7 +33,7 @@ import uk.ac.richmond.pwhelp01.uhuru.model.XmlGenerator;
  */
 public class CreateXmlController implements Initializable {
     
-    @FXML ComboBox schemaCmb;
+    @FXML ComboBox<Schema> schemaCmb;
     @FXML TextField usernameTxt;
     @FXML TextField passwordTxt;
     @FXML TextField fileTxt;
@@ -66,6 +68,12 @@ public class CreateXmlController implements Initializable {
             System.out.println(e.getMessage());
             statusLbl.textProperty().set("Error: Could not load data from Local Database");   
         }
+        
+        // Bindings
+        usernameTxt.textProperty().bindBidirectional(xmlGenerator.usernameProperty());
+        passwordTxt.textProperty().bindBidirectional(xmlGenerator.passwordProperty());
+        statusLbl.textProperty().bind(xmlGenerator.statusProperty());
+        progressPrg.progressProperty().bind(xmlGenerator.progressProperty());
     }
     
     /**
@@ -99,6 +107,39 @@ public class CreateXmlController implements Initializable {
     @FXML
     public void processBtnAction(ActionEvent event) {
         
+        xmlGenerator.setWorkingSchema(schemaCmb.getSelectionModel().getSelectedItem());
+        
+        // Create a new task to run the schema generation in
+        Task<Void> task = new Task<Void>(){
+            
+            // Overide the call() method with the action to take
+            @Override
+            public Void call(){
+
+                try {
+                    // Disable buttons so user doesn't exit during build process
+                    disableButtons();
+
+                    // Generate relational schema
+                    xmlGenerator.process();
+                }
+                catch(Exception e) {
+                    // And error has occured - stop processing and inform the user
+                    xmlGenerator.errorStatus("Error: " + e.getMessage());
+                    e.printStackTrace();
+                }
+                finally {
+                    // Re-enable buttons so user can continue using application
+                    enableButtons();
+                }
+                return null;
+            }
+        };
+        
+        // Create and new thread and execute the task
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
     }
     
     /**
@@ -115,4 +156,21 @@ public class CreateXmlController implements Initializable {
         }
     }
     
+    // Helper methods
+    /**
+     * Disable Process and Back buttons to prevent user from interrupting
+     * the build process
+     */
+    private void disableButtons() {
+        processBtn.setDisable(true);
+        backBtn.setDisable(true);
+    }
+    
+    /**
+     * Re-enable Process and Back buttons
+     */
+    private void enableButtons() {
+        processBtn.setDisable(false);
+        backBtn.setDisable(false);
+    }
 }

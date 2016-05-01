@@ -33,6 +33,35 @@ public class Schema {
         this.jarLocation = jarLocation;
     }
     
+    // Getters and setters
+    public String getServer() {
+        return server;
+    }
+    public void setServer(String server) {
+        this.server = server;
+    }
+    
+    public String getDatabase() {
+        return database;
+    }
+    public void setDatabase(String database) {
+        this.database = database;
+    }
+    
+    public String getRootNode() {
+        return rootNode;
+    }
+    public void setRootNode(String rootNode) {
+        this.rootNode = rootNode;
+    }
+    
+    public String getJarLocation() {
+        return jarLocation;
+    }
+    public void setJarLocation(String jarLocation) {
+        this.jarLocation = jarLocation;
+    }
+    
     /**
      * Overides the toString() method to be used in combobox in the views
      * @return String representation of metadata
@@ -41,4 +70,6 @@ public class Schema {
     public String toString() {
         return("Database=" + server + "." + database + " Root= " + rootNode);
     }    
+    
+    
 }

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:include schemaLocation="C16061CodeLists.xsd"/>
+	<xs:simpleType name="ASCIIType">
+		<xs:restriction base="xs:string">
+			<xs:annotation>
+				<xs:documentation>Limited to UTF-8 character range 0020-007E (ASCII character range 32 - 126).</xs:documentation>
+			</xs:annotation>
+			<xs:pattern value="[&#x20;-&#x7E;]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UnicodeType">
+		<xs:restriction base="xs:string">
+			<xs:annotation>
+				<xs:documentation>Allows UTF-8 characters in the ranges 0020-007E, 00A0-024F and 1E00-1EFF, which are Basic Latin (excluding the C0 control characters), Latin-1 (excluding the C1 control characters), Latin Extended A, Latin Extended B, and Latin Extended Additional.</xs:documentation>
+			</xs:annotation>
+			<xs:pattern value="[&#x20;-&#x7E;&#xA0;-&#x24F;&#x1E00;-&#x1EFF;]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="not-empty-string">
+		<xs:restriction base="UnicodeType">
+			<xs:annotation>
+				<xs:documentation>Restricted UnicodeType to prevent a value with either leading or trailing non breaking spaces e.g. tab, line feed, vertical tab, form feed, and carriage return.</xs:documentation>
+			</xs:annotation>
+			<xs:pattern value="[\S]|[\S][\S]|[\S].*[\S]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UnicodeSubsetType">
+		<xs:restriction base="xs:string">
+			<xs:annotation>
+				<xs:documentation>Allows UTF-8 characters in the ranges 0020-007E, 00A1-024F and 1E00-1EFF, which are Basic Latin (excluding the C0 control characters), Latin-1 (excluding the C1 control characters), Latin Extended A, Latin Extended B, and Latin Extended Additional.</xs:documentation>
+			</xs:annotation>
+			<xs:pattern value="[&#x20;-&#x7E;&#xA1;-&#x24F;&#x1E00;-&#x1EFF;]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="not-empty-string-subset">
+		<xs:restriction base="UnicodeSubsetType">
+			<xs:annotation>
+				<xs:documentation>Restricted UnicodeSubsetType to prevent a value with either leading or trailing non breaking spaces e.g. tab, line feed, vertical tab, form feed, and carriage return.</xs:documentation>
+			</xs:annotation>
+			<xs:pattern value="[\S]|[\S][\S]|[\S].*[\S]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="empty-string">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value=""/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- field types -->
+	<xs:simpleType name="URLType">
+		<xs:annotation>
+			<xs:documentation>
+				A valid URL must be composed of non accented characters in the ranges A-Z or a-z, 0-9, or the following special characters: '\', '/', '-', '=', '&amp;', '?', '#', '.', or '%', If  '&amp;' is used, it must be entered as '&amp;amp;' as XML will otherwise treat it as a reserved character. The URL must start with either 'http' or 'https'. No other protocol is allowed (e.g. ftp). 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="255"/>
+			<xs:pattern value="(http:|https:)(//)*([A-Za-z0-9&amp;\-]+\.)*[A-Za-z0-9&amp;=?%#\-]+\.[A-Za-z&amp;=?%#]{2,}(:[A-Za-z0-9&amp;=?%#\.\-/]+)?(/[\S-[&quot;&gt;&lt;]]*)?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="KISCOURSEIDType">
+		<xs:restriction base="xs:string">
+			<xs:annotation>
+				<xs:documentation>Allowed characters are: a-z A-Z and the following special characters: _ ‘ ! ( ) , $ - ~</xs:documentation>
+			</xs:annotation>
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+			<xs:pattern value="[a-zA-Z0-9$_'!(),$&#x7E;&#x2D;]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UKPRNType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="10000000"/>
+			<xs:maxInclusive value="99999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ANNCOSTSType">
+		<xs:restriction base="xs:nonNegativeInteger">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="99999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BEDSType">
+		<xs:restriction base="xs:nonNegativeInteger">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="99999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FeeType">
+		<xs:restriction base="xs:nonNegativeInteger">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="99999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IntPrcntType">
+		<xs:restriction base="xs:nonNegativeInteger">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="STAGEType">
+		<xs:restriction base="xs:nonNegativeInteger">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="7"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UCASCOURSEIDType">
+		<xs:restriction base="not-empty-string">
+			<xs:maxLength value="4"/>
+			<xs:pattern value="[0-9]{4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UCASPROGIDType">
+		<xs:restriction base="not-empty-string">
+			<xs:maxLength value="7"/>
+			<xs:pattern value="[A-Z]{1}[0-9]{2}[-][A-Z]{1}[0-9]{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="HESACOURSEIDType">
+		<xs:restriction base="not-empty-string">
+			<xs:annotation>
+				<xs:documentation>Allows UTF-8 characters in the ranges 0020-007E, 00A0-024F and 1E00-1EFF, which are Basic Latin (excluding the C0 control characters), Latin-1 (excluding the C1 control characters), Latin Extended A, Latin Extended B, and Latin Extended Additional.</xs:documentation>
+			</xs:annotation>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ILRAIMIDType">
+		<xs:restriction base="not-empty-string">
+			<xs:annotation>
+				<xs:documentation>Allows UTF-8 characters in the ranges 0020-007E, 00A0-024F and 1E00-1EFF, which are Basic Latin (excluding the C0 control characters), Latin-1 (excluding the C1 control characters), Latin Extended A, Latin Extended B, and Latin Extended Additional.</xs:documentation>
+			</xs:annotation>
+			<xs:maxLength value="8"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LDCSType">
+		<xs:restriction base="not-empty-string">
+			<xs:annotation>
+				<xs:documentation>Allowed patterns must have either a single alpha character, or two alpha characters and a full-stop, followed by up to 9 numeric characters.</xs:documentation>
+			</xs:annotation>
+			<xs:maxLength value="9"/>
+				<xs:pattern value="[A-Z]{2}[\.]{1}[0-9]{0,6}"/>
+				<xs:pattern value="[A-Z]{1}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TITLEType">
+		<xs:restriction base="not-empty-string">
+			<xs:annotation>
+				<xs:documentation>Allows UTF-8 characters in the ranges 0020-007E, 00A0-024F and 1E00-1EFF, which are Basic Latin (excluding the C0 control characters), Latin-1 (excluding the C1 control characters), Latin Extended A, Latin Extended B, and Latin Extended Additional.</xs:documentation>
+			</xs:annotation>
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LOCType">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="6"/>
+			<xs:totalDigits value="9"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ACCBODYType">
+		<xs:restriction base="not-empty-string">
+			<xs:pattern value="[0-9]{5}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="KISAIMType">
+		<xs:restriction base="not-empty-string">
+			<xs:pattern value="[0-9]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LOCIDType">
+		<xs:restriction base="not-empty-string">
+			<xs:pattern value="[A-Za-z0-9]{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LOCNAMEType">
+		<xs:restriction base="not-empty-string">
+			<xs:annotation>
+				<xs:documentation>Allows UTF-8 characters in the ranges 0020-007E, 00A0-024F and 1E00-1EFF, which are Basic Latin (excluding the C0 control characters), Latin-1 (excluding the C1 control characters), Latin Extended A, Latin Extended B, and Latin Extended Additional.</xs:documentation>
+			</xs:annotation>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
